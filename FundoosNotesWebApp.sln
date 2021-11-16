@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FundoosNotesWebApp", "Fundo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FundoosModels", "FundoosModels\FundoosModels.csproj", "{92D8B3C2-9F3B-4609-BA4D-F293CB20B172}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FundooRepository", "FundooRepository\FundooRepository.csproj", "{72A1DE2F-5065-4336-BBCB-CCEC4D2D6FD5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{92D8B3C2-9F3B-4609-BA4D-F293CB20B172}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92D8B3C2-9F3B-4609-BA4D-F293CB20B172}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92D8B3C2-9F3B-4609-BA4D-F293CB20B172}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72A1DE2F-5065-4336-BBCB-CCEC4D2D6FD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72A1DE2F-5065-4336-BBCB-CCEC4D2D6FD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72A1DE2F-5065-4336-BBCB-CCEC4D2D6FD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72A1DE2F-5065-4336-BBCB-CCEC4D2D6FD5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
