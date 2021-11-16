@@ -7,7 +7,11 @@
 
   <ItemGroup>
     <Folder Include="Interface\" />
-    <Folder Include="Manager\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FundooRepository\FundooRepository.csproj" />
+    <ProjectReference Include="..\FundoosModels\FundooModels.csproj" />
   </ItemGroup>
 
 </Project>
