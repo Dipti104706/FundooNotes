@@ -1,4 +1,4 @@
-﻿using FundooManager.Manager;
+﻿using FundooManager.Interface;
 using FundooModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -18,7 +18,7 @@ namespace FundooNotes.Controller
         }
         [HttpPost]
         [Route("api/register")]
-        public IActionResult Register([FromBody] RegisterModel userData)
+        public IActionResult Register([FromBody] RegisterModel userData) //frombody attribute says value read from body of the request
         {
             try
             {
@@ -40,4 +40,3 @@ namespace FundooNotes.Controller
         }
     }
 }
-

@@ -1,4 +1,6 @@
-﻿using FundooModels;
+﻿using FundooManager.Interface;
+using FundooModels;
+using FundooRepository.Interface;
 using FundooRepository.Repository;
 using System;
 using System.Collections.Generic;

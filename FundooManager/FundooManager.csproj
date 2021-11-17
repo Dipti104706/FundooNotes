@@ -6,10 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Interface\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\FundooRepository\FundooRepository.csproj" />
     <ProjectReference Include="..\FundoosModels\FundooModels.csproj" />
   </ItemGroup>

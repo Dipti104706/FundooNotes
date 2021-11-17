@@ -1,5 +1,6 @@
 ﻿using FundooModels;
 using FundooRepository.Context;
+using FundooRepository.Interface;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -17,17 +18,19 @@ namespace FundooRepository.Repository
             this.userContext = userContext;
         }
 
+
         public IConfiguration Configuration { get; }
         public string Register(RegisterModel userData)
         {
             try
             {
-                //checking for email validation
                 var validEmail = this.userContext.Users.Where(x => x.Email == userData.Email).FirstOrDefault();
                 if (validEmail == null)
                 {
                     if (userData != null)
                     {
+                        // Encrypting the password
+                        //userData.Password = this.EncryptPassword(userData.Password);
                         // Add the data to the database
                         this.userContext.Add(userData);
                         // Save the change in database
@@ -44,4 +47,4 @@ namespace FundooRepository.Repository
             }
         }
     }
-}
+}   
