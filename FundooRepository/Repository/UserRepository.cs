@@ -11,15 +11,19 @@ namespace FundooRepository.Repository
 {
     public class UserRepository : IUserRepository
     {
+        //Creating object for Userontext
         private readonly UserContext userContext;
+
+        //Declaring Constructor
         public UserRepository(IConfiguration configuration, UserContext userContext)
         {
             this.Configuration = configuration;
             this.userContext = userContext;
         }
 
-
         public IConfiguration Configuration { get; }
+
+        //Method for user registration
         public string Register(RegisterModel userData)
         {
             try
@@ -30,7 +34,7 @@ namespace FundooRepository.Repository
                     if (userData != null)
                     {
                         // Encrypting the password
-                        //userData.Password = this.EncryptPassword(userData.Password);
+                        userData.Password = this.EncryptPassword(userData.Password);
                         // Add the data to the database
                         this.userContext.Add(userData);
                         // Save the change in database
@@ -45,6 +49,14 @@ namespace FundooRepository.Repository
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        //Encrption of password
+        public string EncryptPassword(string password)
+        {
+            //byte[] used , as GetBytes returns it
+            byte[] encrypPassword = Encoding.UTF8.GetBytes(password);
+            return Convert.ToBase64String(encrypPassword);
         }
     }
 }   

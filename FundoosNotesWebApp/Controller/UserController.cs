@@ -10,12 +10,16 @@ namespace FundooNotes.Controller
 {
     public class UserController : ControllerBase
     {
+        //Creating reference for Interface
         private readonly IUserManager manager;
 
+        //Constructor
         public UserController(IUserManager manager)
         {
             this.manager = manager;
         }
+
+        //Method for User Register Request 
         [HttpPost]
         [Route("api/register")]
         public IActionResult Register([FromBody] RegisterModel userData) //frombody attribute says value read from body of the request
@@ -24,7 +28,7 @@ namespace FundooNotes.Controller
             {
                 string result = this.manager.Register(userData);
 
-                if (result.Equals("Registration Successfull"))
+                if (result.Equals("Registration Successful"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
                 }
@@ -38,5 +42,7 @@ namespace FundooNotes.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+
     }
 }
