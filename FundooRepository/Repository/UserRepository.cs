@@ -3,7 +3,6 @@ using FundooRepository.Context;
 using FundooRepository.Interface;
 using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -72,7 +71,7 @@ namespace FundooRepository.Repository
                 }
                 else
                 {
-                    return "Login Successful ";
+                    return "Login Successful";
                 }
             }
             catch (ArgumentNullException ex)

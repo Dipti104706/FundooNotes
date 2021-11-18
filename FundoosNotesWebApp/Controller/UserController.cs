@@ -2,9 +2,6 @@
 using FundooModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FundooNotes.Controller
 {
@@ -13,7 +10,7 @@ namespace FundooNotes.Controller
         //Creating reference for Interface
         private readonly IUserManager manager;
 
-        //Constructor
+        //Parametrized Constructor
         public UserController(IUserManager manager)
         {
             this.manager = manager;
@@ -52,7 +49,7 @@ namespace FundooNotes.Controller
             {
                 string result = this.manager.LogIn(login);
 
-                if (result.Equals("Login Successful "))
+                if (result.Equals("Login Successful"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
                 }

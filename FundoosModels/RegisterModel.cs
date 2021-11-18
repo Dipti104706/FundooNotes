@@ -8,7 +8,7 @@ namespace FundooModels
     public class RegisterModel
     {
         [Key]
-        public string UserId { get; set; }
+        public int UserId { get; set; }
         [Required]
         [RegularExpression(@"^[A-Z]{1}[a-z]{2,}$", ErrorMessage = "Please enter a valid First Name")]
         public string FirstName { get; set; }

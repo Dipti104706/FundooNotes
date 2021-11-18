@@ -1,16 +1,16 @@
 ﻿using FundooManager.Interface;
 using FundooModels;
 using FundooRepository.Interface;
-using FundooRepository.Repository;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FundooManager.Manager
 {
     public class UserManager : IUserManager
     {
+        //Creating reference for IUserRepository
         private readonly IUserRepository repository;
+
+        //Declaring parametrized constructor
         public UserManager(IUserRepository repository)
         {
             this.repository = repository;
