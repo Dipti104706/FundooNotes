@@ -58,5 +58,27 @@ namespace FundooRepository.Repository
             byte[] encrypPassword = Encoding.UTF8.GetBytes(password);
             return Convert.ToBase64String(encrypPassword);
         }
+
+        //Method for login functionality
+        public string LogIn(LoginModel logIn)//here class is used as datatype
+        {
+            try
+            {
+                var validEmail = this.userContext.Users.Where(x => x.Email == logIn.Email).FirstOrDefault();
+                var validPassword = this.userContext.Users.Where(x => x.Password == logIn.Password).FirstOrDefault();
+                if (validEmail == null && validPassword == null)
+                {
+                    return "Login UnSuccessful";
+                }
+                else
+                {
+                    return "Login Successful ";
+                }
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }   
