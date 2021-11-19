@@ -4,6 +4,7 @@ using FundooRepository.Interface;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace FundooRepository.Repository
@@ -53,9 +54,10 @@ namespace FundooRepository.Repository
         //Encrption of password
         public string EncryptPassword(string password)
         {
-            //byte[] used , as GetBytes returns it
-            byte[] encrypPassword = Encoding.UTF8.GetBytes(password);
-            return Convert.ToBase64String(encrypPassword);
+            //Using hashing technique of cryptography
+            SHA256 encrypt = SHA256.Create();//SHA256-hashing
+            byte[] bytes = encrypt.ComputeHash(Encoding.UTF8.GetBytes(password));//computeHash() computes hash 
+            return BitConverter.ToString(bytes);//retuns a hexadecimal pairs(like 7F-G6)
         }
 
         //Method for login functionality
