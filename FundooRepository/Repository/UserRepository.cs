@@ -81,5 +81,29 @@ namespace FundooRepository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        //Api for reset password
+        public string ResetPassword(ResetPsModel reset)
+        {
+            try
+            {
+                var validEmail = this.userContext.Users.Where(x => x.Email == reset.Email).FirstOrDefault(); //checking the email present in the DB or not
+                if (reset != null)
+                {
+                    // Encrypting the password
+                    validEmail.Password = this.EncryptPassword(reset.Password);
+                    // Update the data in the database
+                    this.userContext.Update(validEmail);
+                    // Save the change in database
+                    this.userContext.SaveChanges();
+                    return "Password Updated Successfully";
+                }
+                return "Reset Password is Unsuccssful";
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }   

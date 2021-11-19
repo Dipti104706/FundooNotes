@@ -6,5 +6,6 @@ namespace FundooManager.Interface
     {
         string Register(RegisterModel userData);
         string LogIn(LoginModel login);
+        string ResetPassword(ResetPsModel reset);
     }
 }
