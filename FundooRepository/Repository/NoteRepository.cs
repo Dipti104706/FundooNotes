@@ -5,11 +5,11 @@ using System;
 
 namespace FundooRepository.Repository
 {
-    public class NoteRepository
+    public class NoteRepository : INoteRepository
     {
         //Creating object for Usercontext
         private readonly UserContext userContext;
-        
+
         //Declaring parameterized constructor
         public NoteRepository(IConfiguration configuration, UserContext userContext)
         {
