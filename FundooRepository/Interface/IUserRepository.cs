@@ -10,5 +10,6 @@ namespace FundooRepository.Interface
         string Register(RegisterModel userData);
         string LogIn(LoginModel logIn);
         string ResetPassword(ResetPsModel reset);
+        string ForgotPassword(string email);
     }
 }

@@ -4,6 +4,7 @@ using FundooRepository.Interface;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Linq;
+using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -110,6 +111,41 @@ namespace FundooRepository.Repository
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        //Api for forgot password
+        public string ForgotPassword(string email)
+        {
+            try
+            {
+                var existEmail = this.userContext.Users.Where(x => x.Email == email).FirstOrDefault(); //checking the email present in the DB or not
+                if (existEmail != null)
+                {
+                    //calling SMTP method to sent mail to the user 
+                    SMTPmail(email);
+                    return "Email sent to user";
+                }
+                return "Sending Email failed";
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        //Method for SMTP(Simple mail trasfer protocol)
+        public void SMTPmail(string email)
+        {
+            MailMessage mailId = new MailMessage();
+            SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");//allow App to sent email using SMTP 
+            mailId.From = new MailAddress("diptimayeebehura022@gmail.com");//contain mail id from where maill will send
+            mailId.To.Add(email);// the user mail to which maill will be send
+            mailId.Subject = "Regarding forgot password issue";
+            mailId.Body = "Please checkout the below url to create your new password";
+            SmtpServer.Port = 587;//Port no 
+            SmtpServer.Credentials = new System.Net.NetworkCredential("diptimayeebehura022@gmail.com", "*******");
+            SmtpServer.EnableSsl = true; //specify smtpserver use ssl or not, default setting is false
+            SmtpServer.Send(mailId);
         }
     }
 }   
