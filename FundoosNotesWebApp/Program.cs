@@ -17,6 +17,7 @@ namespace FundoosNotesWebApp
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
+           //Host is used to create instance of IHost
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {

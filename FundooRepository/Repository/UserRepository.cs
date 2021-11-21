@@ -61,20 +61,26 @@ namespace FundooRepository.Repository
         }
 
         //Method for login functionality
-        public string LogIn(LoginModel logIn)//here class is used as datatype
+        public string LogIn(LoginModel logIn)//here class is used as datatype and its parameter
         {
             try
             {
-                var validEmail = this.userContext.Users.Where(x => x.Email == logIn.Email).FirstOrDefault();
-                var validPassword = this.userContext.Users.Where(x => x.Password == logIn.Password).FirstOrDefault();
-                if (validEmail == null && validPassword == null)
+                var existEmail = this.userContext.Users.Where(x => x.Email == logIn.Email).FirstOrDefault();
+                if (existEmail != null)
                 {
-                    return "Login UnSuccessful";
+                    logIn.Password = this.EncryptPassword(logIn.Password);
+                    var existingPassword = this.userContext.Users.Where(x => x.Password == logIn.Password).FirstOrDefault();
+                    if (existingPassword == null)
+                    {
+                        return "Login UnSuccessful";
+                    }
+                    else
+                    {
+                        //return "Login Successful ";
+                        return "Loggedin as" + existEmail.FirstName;
+                    }
                 }
-                else
-                {
-                    return "Login Successful";
-                }
+                return "Email Id does Exist,Please Register first";
             }
             catch (ArgumentNullException ex)
             {

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace FundooRepository.Context
 {
-    public class UserContext : DbContext //helps to connect with the DB
+    public class UserContext : DbContext //class -helps to connect with the DB
     {
         public UserContext(DbContextOptions<UserContext> options) : base(options)
         {

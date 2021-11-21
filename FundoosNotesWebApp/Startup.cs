@@ -24,7 +24,9 @@ namespace FundoosNotesWebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc();//adds all mvc services
+            //AddDbContextPool-enable dbpool , saves context as service and can be reused rather creating new instances
+            //UseSqlServer-connect to sql database server
             services.AddDbContextPool<UserContext>(option => option.UseSqlServer(this.Configuration.GetConnectionString("FundooDB")));
             //Adding Dependency injections
             services.AddTransient<IUserRepository, UserRepository>(); 
@@ -34,26 +36,28 @@ namespace FundoosNotesWebApp
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (env.IsDevelopment()) //check if current host is belong to microsoft host or not
             {
-                app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage();//helps developer in tracing errors that occure during the developmnt phase
             }
             else
             {
-                app.UseExceptionHandler("/Error");
+                app.UseExceptionHandler("/Error");//middleware to catch exception
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                app.UseHsts();//header strict transfer security,
             }
+            //All are middleswares
+            app.UseHttpsRedirection();//redirect the http to https
+            app.UseStaticFiles();//serve staticfiles(html,css,image) http req without any server side processing
 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-
-            app.UseRouting();
+            app.UseRouting();//match request to endpoint
 
             app.UseAuthorization();
 
+            //it execute the matched endpoint
             app.UseEndpoints(endpoints =>
             {
+                //MapcontrollerRoute(),map attributes present in controller
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
