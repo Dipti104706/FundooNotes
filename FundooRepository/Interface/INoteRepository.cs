@@ -7,6 +7,6 @@ namespace FundooRepository.Interface
     {
         IConfiguration Configuration { get; }
 
-        string Note(NoteModel noteModel);
+        string CreateNote(NoteModel noteModel);
     }
 }

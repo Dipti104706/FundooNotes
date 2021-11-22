@@ -21,7 +21,7 @@ namespace FundooRepository.Repository
         public IConfiguration Configuration { get; }
 
         //Method for adding notes in the fundoo note application
-        public string Note(NoteModel noteModel)
+        public string CreateNote(NoteModel noteModel)
         {
             try
             {
