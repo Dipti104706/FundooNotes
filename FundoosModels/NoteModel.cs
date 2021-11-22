@@ -20,12 +20,12 @@ namespace FundooModels
 
         public string Remainder { get; set; }
 
-        public string Color { get; set; }
+        public string Colour { get; set; }
 
         public string Image { get; set; }
 
         [DefaultValue(false)]
-        public bool Archive { get; set; }
+        public bool Archieve { get; set; }
 
         [DefaultValue(false)]
         public bool Trash { get; set; }
