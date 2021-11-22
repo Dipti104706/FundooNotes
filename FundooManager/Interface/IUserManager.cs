@@ -1,12 +1,13 @@
 ﻿using FundooModels;
+using System.Threading.Tasks;
 
 namespace FundooManager.Interface
 {
     public interface IUserManager
     {
-        string Register(RegisterModel userData);
+        Task<string> Register(RegisterModel userData);
         string LogIn(LoginModel login);
-        string ResetPassword(ResetPsModel reset);
+        Task<string> ResetPassword(ResetPsModel reset);
         string ForgotPassword(string email);
     }
 }

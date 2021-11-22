@@ -2,6 +2,7 @@
 using FundooModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Threading.Tasks;
 
 namespace FundooNotes.Controller
 {
@@ -19,11 +20,11 @@ namespace FundooNotes.Controller
         //Method for User Register Request 
         [HttpPost]
         [Route("api/register")]
-        public IActionResult Register([FromBody] RegisterModel userData) //frombody attribute says value read from body of the request
+        public async Task<IActionResult> Register([FromBody] RegisterModel userData) //frombody attribute says value read from body of the request
         {
             try
             {
-                string result = this.manager.Register(userData);
+                string result = await this.manager.Register(userData);
 
                 if (result.Equals("Registration Successful"))
                 {
@@ -41,6 +42,7 @@ namespace FundooNotes.Controller
         }
 
         //Api for Log in functionality
+        //Async will not work for httpGet
         [HttpGet]
         [Route("api/Login")]
         public IActionResult LogIn([FromBody] LoginModel login)
@@ -67,11 +69,11 @@ namespace FundooNotes.Controller
         //Reset password functionality
         [HttpPut]
         [Route("api/reset")]
-        public IActionResult ResetPassword([FromBody] ResetPsModel reset)
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPsModel reset)
         {
             try
             {
-                string result = this.manager.ResetPassword(reset);
+                string result = await this.manager.ResetPassword(reset);
 
                 if (result.Equals("Password Updated Successfully"))
                 {

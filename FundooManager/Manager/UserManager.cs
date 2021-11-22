@@ -2,6 +2,7 @@
 using FundooModels;
 using FundooRepository.Interface;
 using System;
+using System.Threading.Tasks;
 
 namespace FundooManager.Manager
 {
@@ -16,11 +17,12 @@ namespace FundooManager.Manager
             this.repository = repository;
         }
 
-        public string Register(RegisterModel userData)
+        //Register functionality
+        public async Task<string> Register(RegisterModel userData)
         {
             try
             {
-                return this.repository.Register(userData);
+                return await this.repository.Register(userData);
             }
             catch (Exception e)
             {
@@ -28,6 +30,7 @@ namespace FundooManager.Manager
             }
         }
 
+        //Login functionality
         public string LogIn(LoginModel login)
         {
             try
@@ -40,11 +43,12 @@ namespace FundooManager.Manager
             }
         }
 
-        public string ResetPassword(ResetPsModel reset)
+        //Reset password functionality
+        public async Task<string> ResetPassword(ResetPsModel reset)
         {
             try
             {
-                return this.repository.ResetPassword(reset);
+                return await this.repository.ResetPassword(reset);
             }
             catch (Exception e)
             {
@@ -52,6 +56,7 @@ namespace FundooManager.Manager
             }
         }
 
+        //Forgot password functionality
         public string ForgotPassword(string email)
         {
             try

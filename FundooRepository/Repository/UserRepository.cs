@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace FundooRepository.Repository
 {
@@ -25,7 +26,7 @@ namespace FundooRepository.Repository
         public IConfiguration Configuration { get; }
 
         //Method for user registration
-        public string Register(RegisterModel userData)
+        public async Task<string> Register(RegisterModel userData)
         {
             try
             {
@@ -39,7 +40,8 @@ namespace FundooRepository.Repository
                         // Add the data to the database
                         this.userContext.Add(userData);
                         // Save the change in database
-                        this.userContext.SaveChanges();
+                        //Using await 
+                        await this.userContext.SaveChangesAsync();
                         return "Registration Successful";
                     }
                     return "Registration UnSuccessful";
@@ -62,7 +64,7 @@ namespace FundooRepository.Repository
         }
 
         //Method for login functionality
-        public string LogIn(LoginModel logIn)//here class is used as datatype and its parameter
+        public string LogIn(LoginModel logIn)//here class is used as datatype and its parameter //Async cant applied for httpget
         {
             try
             {
@@ -90,7 +92,7 @@ namespace FundooRepository.Repository
         }
 
         //Api for reset password
-        public string ResetPassword(ResetPsModel reset)
+        public async Task<string> ResetPassword(ResetPsModel reset)
         {
             try
             {
@@ -102,7 +104,7 @@ namespace FundooRepository.Repository
                     // Update the data in the database
                     this.userContext.Update(validEmail);
                     // Save the change in database
-                    this.userContext.SaveChanges();
+                    await this.userContext.SaveChangesAsync();
                     return "Password Updated Successfully";
                 }
                 return "Reset Password is Unsuccssful";
