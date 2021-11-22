@@ -1,4 +1,5 @@
-﻿using FundooModels;
+﻿using Experimental.System.Messaging;
+using FundooModels;
 using FundooRepository.Context;
 using FundooRepository.Interface;
 using Microsoft.Extensions.Configuration;
@@ -140,14 +141,41 @@ namespace FundooRepository.Repository
         {
             MailMessage mailId = new MailMessage();
             SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");//allow App to sent email using SMTP 
-            mailId.From = new MailAddress("diptimayeebehura022@gmail.com");//contain mail id from where maill will send
+            mailId.From = new MailAddress(this.Configuration["Credentials:Email"]);//contain mail id from where maill will send
             mailId.To.Add(email);// the user mail to which maill will be send
             mailId.Subject = "Regarding forgot password issue";
-            mailId.Body = "Please checkout the below url to create your new password";
+            SendMSMQ();
+            mailId.Body = ReceiveMSMQ();
             SmtpServer.Port = 587;//Port no 
-            SmtpServer.Credentials = new System.Net.NetworkCredential("diptimayeebehura022@gmail.com", "*******");
+            SmtpServer.Credentials = new System.Net.NetworkCredential(this.Configuration["Credentials:Email"], this.Configuration["Credentials:Password"]);
             SmtpServer.EnableSsl = true; //specify smtpserver use ssl or not, default setting is false
             SmtpServer.Send(mailId);
+        }
+
+        //Sending MSMQ(Microsoft messaging queue) method
+        public void SendMSMQ()
+        {
+            MessageQueue msgQueue; //provide access to a queue in MSMQ
+            if (MessageQueue.Exists(@".\Private$\fundooNote"))//hecking this private queue exists or not
+            {
+                msgQueue = new MessageQueue(@".\Private$\fundooNote"); //Path for queue
+            }
+            else
+            {
+                msgQueue = MessageQueue.Create(@".\Private$\fundooNote");
+            }
+            string body = "Please checkout the below url to create your new password";
+            msgQueue.Label = "MailBody"; //Adding label to queue
+            //Sending msg
+            msgQueue.Send(body);
+        }
+
+        //Receiving msmq 
+        public string ReceiveMSMQ()
+        {
+            var queue = new MessageQueue(@".\Private$\fundooNote");
+            var received = queue.Receive(); //To receive the meassage send by msmq with this format
+            return received.ToString();
         }
     }
 }   
