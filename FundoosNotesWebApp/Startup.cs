@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 
 namespace FundoosNotesWebApp
 {
@@ -33,6 +34,11 @@ namespace FundoosNotesWebApp
             services.AddTransient<IUserManager, UserManager>();
             services.AddTransient<INoteManager, NoteManager>();
             services.AddTransient<INoteRepository, NoteRepository>();
+            //Adding swagger services
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1.0", new OpenApiInfo { Title = "FunDooNote", Version = "1.0" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,6 +69,11 @@ namespace FundoosNotesWebApp
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1.0/swagger.json", "FunDooNote (V 1.0)");
             });
         }
     }
