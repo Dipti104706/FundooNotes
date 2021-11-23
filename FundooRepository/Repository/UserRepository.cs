@@ -3,9 +3,12 @@ using FundooModels;
 using FundooRepository.Context;
 using FundooRepository.Interface;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net.Mail;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -84,7 +87,7 @@ namespace FundooRepository.Repository
                         return "Loggedin as" + existEmail.FirstName;
                     }
                 }
-                return "Email Id does Exist,Please Register first";
+                return "Email not Exist,Please Register first";
             }
             catch (ArgumentNullException ex)
             {
@@ -176,6 +179,26 @@ namespace FundooRepository.Repository
             var queue = new MessageQueue(@".\Private$\fundooNote");
             var received = queue.Receive(); //To receive the meassage send by msmq with this format
             return received.ToString();
+        }
+
+        //Generating JWT(Json web token) used for xfer information securely
+        //
+        public string JWTTokenGeneration(string email)
+        {
+            byte[] key = Encoding.UTF8.GetBytes(this.Configuration["SecretKey"]); //Encrypting secret key
+            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(key);
+            SecurityTokenDescriptor descriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
+                new Claim(ClaimTypes.Name, email)
+            }),
+                Expires = DateTime.UtcNow.AddMinutes(30), //expiry time
+                SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature)
+            };
+            JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler(); //creating and validating JWT
+            JwtSecurityToken token = handler.CreateJwtSecurityToken(descriptor);
+            return handler.WriteToken(token);
         }
     }
 }   
