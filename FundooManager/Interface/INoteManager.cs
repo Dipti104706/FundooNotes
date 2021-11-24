@@ -1,9 +1,10 @@
 ﻿using FundooModels;
+using System.Threading.Tasks;
 
 namespace FundooManager.Interface
 {
     public interface INoteManager
     {
-        string CreateNote(NoteModel notesModel);
+        Task<string> CreateNote(NoteModel notesModel);
     }
 }

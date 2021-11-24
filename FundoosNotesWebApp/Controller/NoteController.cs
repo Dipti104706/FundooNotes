@@ -22,11 +22,11 @@ namespace FundooNotesWebApp.Controller
         //Api for adding new note
         [HttpPost]
         [Route("api/addNote")]
-        public IActionResult Notes([FromBody] NoteModel notesModel)
+        public async Task<IActionResult> Notes([FromBody] NoteModel notesModel)
         {
             try
             {
-                string result = this.noteManager.CreateNote(notesModel);
+                string result = await this.noteManager.CreateNote(notesModel);
                 if (result == "Note is Added")
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });

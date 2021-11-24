@@ -3,6 +3,8 @@ using FundooRepository.Context;
 using FundooRepository.Interface;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace FundooRepository.Repository
 {
@@ -21,16 +23,16 @@ namespace FundooRepository.Repository
         public IConfiguration Configuration { get; }
 
         //Method for adding notes in the fundoo note application
-        public string CreateNote(NoteModel noteModel)
+        public async Task<string> CreateNote(NoteModel note)
         {
             try
             {
-                if (noteModel != null)
+                if (note != null)
                 {
                     // Add the data to the database
-                    this.userContext.Notes.Add(noteModel);
-                    // Save the change in database
-                    this.userContext.SaveChanges();
+                    this.userContext.Notes.Add(note);
+                    //Save changes to database
+                    await this.userContext.SaveChangesAsync();
                     return "Note is Added";
                 }
                 else
