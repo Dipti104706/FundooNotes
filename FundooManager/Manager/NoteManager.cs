@@ -55,5 +55,18 @@ namespace FundooManager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        //Api for edit notes title and yournotes
+        public async Task<string> EditNotes(NoteModel note)
+        {
+            try
+            {
+                return await this.noteRepository.EditNotes(note);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

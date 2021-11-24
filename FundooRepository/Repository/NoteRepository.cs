@@ -120,5 +120,39 @@ namespace FundooRepository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        //Api for Edit notes 
+        public async Task<string> EditNotes(NoteModel note)
+        {
+            try
+            {
+                var availNoteId = this.userContext.Notes.Where(x => x.NoteId == note.NoteId).FirstOrDefault();
+                if (availNoteId != null)
+                {
+                    if (note != null)
+                    {
+                        availNoteId.Title = note.Title; //updating title
+                        availNoteId.YourNotes = note.YourNotes;//updating description of note
+                        // Add the data to the database
+                        this.userContext.Notes.Update(availNoteId);
+                        //Save changes to database
+                        await this.userContext.SaveChangesAsync();
+                        return "Note is Updated Succssfully";
+                    }
+                    else
+                    {
+                        return "Updating note unsuccessful";
+                    }
+                }
+                else
+                {
+                    return "This note does not exist";
+                }
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

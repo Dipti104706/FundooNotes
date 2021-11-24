@@ -11,5 +11,6 @@ namespace FundooRepository.Interface
         Task<string> CreateNote(NoteModel note);
         Task<string> ChangeColour(int noteId, string color);
         Task<string> NoteArchive(int noteId);
+        Task<string> EditNotes(NoteModel note);
     }
 }

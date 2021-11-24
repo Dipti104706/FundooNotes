@@ -87,5 +87,28 @@ namespace FundooNotesWebApp.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        //Api for updating title and description of existing notes
+        [HttpPut]
+        [Route("api/editnote")]
+        public async Task<IActionResult> EditNote([FromBody] NoteModel note)
+        {
+            try
+            {
+                string result = await this.noteManager.EditNotes(note);
+                if (result.Equals("Note is Updated Succssfully"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }
