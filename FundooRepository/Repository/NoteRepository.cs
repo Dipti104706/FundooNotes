@@ -121,7 +121,7 @@ namespace FundooRepository.Repository
             }
         }
 
-        //Api for Edit notes 
+        //Api for Edit title and description of notes 
         public async Task<string> EditNotes(NoteModel note)
         {
             try
@@ -148,6 +148,46 @@ namespace FundooRepository.Repository
                 {
                     return "This note does not exist";
                 }
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        //Api for Making note as pinned
+        public async Task<string> AddNoteAsPinned(int notesId)
+        {
+            try
+            {
+                string res;
+                var availNoteId = this.userContext.Notes.Where(x => x.NoteId == notesId).SingleOrDefault();
+                if (availNoteId != null)
+                {
+                    if (availNoteId.Pinned == false)
+                    {
+                        availNoteId.Pinned = true;
+                        if (availNoteId.Archieve == true) //Now checking is that note is pinned or not
+                        {
+                            availNoteId.Archieve = false;//making it unpinned , then stored in archieve
+                            res = "Notes unarchieved and pinned";
+                        }
+                        else
+                            res = "Note pinned";
+                    }
+                    else
+                    {
+                        availNoteId.Pinned = false;
+                        res = "Note unpinned";
+                    }
+                    this.userContext.Notes.Update(availNoteId);
+                    await this.userContext.SaveChangesAsync();
+                }
+                else
+                {
+                    res = "This note does not exist";
+                }
+                return res;
             }
             catch (ArgumentNullException ex)
             {

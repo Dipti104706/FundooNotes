@@ -12,5 +12,6 @@ namespace FundooRepository.Interface
         Task<string> ChangeColour(int noteId, string color);
         Task<string> NoteArchive(int noteId);
         Task<string> EditNotes(NoteModel note);
+        Task<string> AddNoteAsPinned(int notesId);
     }
 }

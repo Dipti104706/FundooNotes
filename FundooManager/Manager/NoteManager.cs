@@ -68,5 +68,18 @@ namespace FundooManager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        //Api for pinning notes
+        public async Task<string> AddNoteAsPinned(int notesId)
+        {
+            try
+            {
+                return await this.noteRepository.AddNoteAsPinned(notesId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
