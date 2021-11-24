@@ -45,5 +45,36 @@ namespace FundooRepository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        //Api for change color of the existing note
+        public async Task<string> ChangeColour(int noteId, string color)
+        {
+            try
+            {
+                var availNote = this.userContext.Notes.Where(x => x.NoteId == noteId).SingleOrDefault();
+                if (availNote != null)
+                {
+                    if (color != null)
+                    {
+                        availNote.Colour = color;
+                        this.userContext.Notes.Update(availNote);
+                        await this.userContext.SaveChangesAsync();
+                        return "Choosen color is Added";
+                    }
+                    else
+                    {
+                        return "Adding color is Unsuccessful";
+                    }
+                }
+                else
+                {
+                    return "This note does not exist";
+                }
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

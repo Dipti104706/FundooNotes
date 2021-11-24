@@ -6,5 +6,6 @@ namespace FundooManager.Interface
     public interface INoteManager
     {
         Task<string> CreateNote(NoteModel notesModel);
+        Task<string> ChangeColour(int noteId, string color);
     }
 }
