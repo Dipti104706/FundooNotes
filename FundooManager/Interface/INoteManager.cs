@@ -7,5 +7,6 @@ namespace FundooManager.Interface
     {
         Task<string> CreateNote(NoteModel notesModel);
         Task<string> ChangeColour(int noteId, string color);
+        Task<string> NoteArchive(int noteId);
     }
 }

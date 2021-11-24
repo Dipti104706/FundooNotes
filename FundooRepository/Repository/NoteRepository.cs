@@ -76,5 +76,49 @@ namespace FundooRepository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        //API for making note as archieve
+        public async Task<string> NoteArchive(int noteId)
+        {
+            try
+            {
+                string res;
+                var availNote = this.userContext.Notes.Where(x => x.NoteId == noteId).SingleOrDefault();
+                if (availNote != null) //checking this note exist or not
+                {
+                    if (availNote.Archieve == false)
+                    {
+                        availNote.Archieve = true; //Making note stored in archeive
+                        if (availNote.Pinned == true) //Now checking is that note is pinned or not
+                        {
+                            availNote.Pinned = false;//making it unpinned , then stored in archieve
+                            res = "Notes unpinned and moved to Archived";
+                        }
+                        else
+                        {
+                            //If that note is not pinned , then directly note can be archieved
+                            res = "Note archived";
+                        }
+                    }
+                    else
+                    {
+                        //if the note is already archieved , then make that unarchieved
+                        availNote.Archieve = false;
+                        res = "Note unarchived";
+                    }
+                    this.userContext.Notes.Update(availNote);
+                    await this.userContext.SaveChangesAsync();
+                }
+                else
+                {
+                    res = "This note does not exist";
+                }
+                return res;
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

@@ -29,5 +29,31 @@ namespace FundooManager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        //Api for changing color of existing note
+        public async Task<string> ChangeColour(int noteId, string color)
+        {
+            try
+            {
+                return await this.noteRepository.ChangeColour(noteId, color);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        //Api for changing existing note colour
+        public async Task<string> NoteArchive(int noteId)
+        {
+            try
+            {
+                return await this.noteRepository.NoteArchive(noteId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
