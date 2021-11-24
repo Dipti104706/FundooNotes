@@ -4,6 +4,7 @@ using FundooRepository.Context;
 using FundooRepository.Interface;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using StackExchange.Redis;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -83,8 +84,11 @@ namespace FundooRepository.Repository
                     }
                     else
                     {
-                        //return "Login Successful ";
-                        return "Loggedin as" + existEmail.FirstName;
+                        ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
+                        IDatabase database = connectionMultiplexer.GetDatabase();
+                        database.StringSet(key: "First Name", existingPassword.FirstName);
+                        database.StringSet(key: "Last Name", existingPassword.LastName);
+                        return "Login Successful";
                     }
                 }
                 return "Email not Exist,Please Register first";

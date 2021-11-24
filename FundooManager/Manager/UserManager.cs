@@ -68,5 +68,18 @@ namespace FundooManager.Manager
                 throw new Exception(e.Message);
             }
         }
+
+        //Generate JWt token
+        public string JWTTokenGeneration(string email)
+        {
+            try
+            {
+                return this.repository.JWTTokenGeneration(email);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using FundooManager.Interface;
 using FundooModels;
 using Microsoft.AspNetCore.Mvc;
+using StackExchange.Redis;
 using System;
 using System.Threading.Tasks;
 
@@ -49,11 +50,22 @@ namespace FundooNotes.Controller
         {
             try
             {
-                string result = this.manager.LogIn(login);
+                var result = this.manager.LogIn(login);
 
                 if (result.Equals("Login Successful"))
                 {
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                    ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
+                    IDatabase database = connectionMultiplexer.GetDatabase();
+                    string firstName = database.StringGet("First Name");
+                    string lastName = database.StringGet("Last Name");
+                    RegisterModel data = new RegisterModel
+                    {
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = login.Email
+                    };
+                    string token = this.manager.JWTTokenGeneration(login.Email);
+                    return this.Ok(new { Status = true, Message = result, Data = data, Token = token });
                 }
                 else
                 {
