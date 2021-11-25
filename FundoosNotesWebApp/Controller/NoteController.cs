@@ -1,5 +1,6 @@
 ﻿using FundooManager.Interface;
 using FundooModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace FundooNotesWebApp.Controller
 {
+    [Authorize]
     public class NoteController : ControllerBase
     {
         //Creating reference for Interface
