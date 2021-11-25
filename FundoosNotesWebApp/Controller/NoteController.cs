@@ -226,5 +226,28 @@ namespace FundooNotesWebApp.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        //Api for adding reminder to notes
+        [HttpPut]
+        [Route("api/addReminder")]
+        public async Task<IActionResult> AddReminder([FromBody] int noteId, string remind)
+        {
+            try
+            {
+                string result = await this.noteManager.AddReminder(noteId, remind);
+                if (result.Equals("Remind me"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

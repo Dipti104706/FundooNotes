@@ -134,5 +134,18 @@ namespace FundooManager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        //Api for adding reminder for notes
+        public async Task<string> AddReminder(int notesId, string remind)
+        {
+            try
+            {
+                return await this.noteRepository.AddReminder(notesId, remind);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
