@@ -108,5 +108,18 @@ namespace FundooManager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        //Api for restore note from trash
+        public async Task<string> RetrieveNoteFromTrash(int notesId)
+        {
+            try
+            {
+                return await this.noteRepository.RetrieveNoteFromTrash(notesId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

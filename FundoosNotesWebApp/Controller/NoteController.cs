@@ -180,5 +180,28 @@ namespace FundooNotesWebApp.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        //Api for restore note from trash
+        [HttpPut]
+        [Route("api/restore")]
+        public async Task<IActionResult> RetrieveNoteFromTrash(int notesId)
+        {
+            try
+            {
+                string result = await this.noteManager.RetrieveNoteFromTrash(notesId);
+                if (result.Equals("Note restored"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }
