@@ -17,5 +17,6 @@ namespace FundooRepository.Interface
         Task<string> AddImage(int noteId, IFormFile form);
         Task<string> DeleteNote(int notesId);
         Task<string> RetrieveNoteFromTrash(int notesId);
+        Task<string> DeleteNoteFromTrash(int notesId);
     }
 }

@@ -284,5 +284,28 @@ namespace FundooRepository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        //Delete note permanently from trash
+        public async Task<string> DeleteNoteFromTrash(int notesId)
+        {
+            try
+            {
+                var availNoteId = this.userContext.Notes.Where(x => x.NoteId == notesId).FirstOrDefault();
+                if (availNoteId != null)
+                {
+                    this.userContext.Notes.Remove(availNoteId);
+                    await this.userContext.SaveChangesAsync();
+                    return "Note Deleted Permanately";
+                }
+                else
+                {
+                    return "This note does not exist";
+                }
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
