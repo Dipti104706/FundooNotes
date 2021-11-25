@@ -147,5 +147,18 @@ namespace FundooManager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        //Api for Delete reminder
+        public async Task<string> DeleteReminder(int notesId)
+        {
+            try
+            {
+                return await this.noteRepository.DeleteReminder(notesId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

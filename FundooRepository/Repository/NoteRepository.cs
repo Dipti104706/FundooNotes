@@ -331,5 +331,26 @@ namespace FundooRepository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        //Api for delete remainder
+        public async Task<string> DeleteReminder(int noteId)
+        {
+            try
+            {
+                var availNoteId = this.userContext.Notes.Where(x => x.NoteId == noteId).SingleOrDefault();
+                if (availNoteId != null)
+                {
+                    availNoteId.Remainder = null;
+                    this.userContext.Notes.Update(availNoteId);
+                    await this.userContext.SaveChangesAsync();
+                    return "Reminder Deleted";
+                }
+                return "This note does not exist";
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

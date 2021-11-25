@@ -249,5 +249,28 @@ namespace FundooNotesWebApp.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        //Api for delete the reminder
+        [HttpPut]
+        [Route("api/deleteReminder")]
+        public async Task<IActionResult> DeleteReminder(int noteId)
+        {
+            try
+            {
+                string result = await this.noteManager.DeleteReminder(noteId);
+                if (result.Equals("Reminder Deleted"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

@@ -19,5 +19,6 @@ namespace FundooRepository.Interface
         Task<string> RetrieveNoteFromTrash(int notesId);
         Task<string> DeleteNoteFromTrash(int notesId);
         Task<string> AddReminder(int notesId, string remind);
+        Task<string> DeleteReminder(int noteId);
     }
 }
