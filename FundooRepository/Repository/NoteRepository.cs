@@ -375,5 +375,23 @@ namespace FundooRepository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        //Get all trashed notes
+        public IEnumerable<NoteModel> GetTrashNotes(int userId)
+        {
+            try
+            {
+                IEnumerable<NoteModel> availTrashed = this.userContext.Notes.Where(x => x.UserId == userId && x.Trash == true);
+                if (availTrashed != null)
+                {
+                    return availTrashed;
+                }
+                return null;
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
