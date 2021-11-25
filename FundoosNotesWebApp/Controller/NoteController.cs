@@ -157,5 +157,28 @@ namespace FundooNotesWebApp.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = true, Message = ex.Message });
             }
         }
+
+        //Api for make note delete
+        [HttpPut]
+        [Route("api/trashed")]
+        public async Task<IActionResult> DeleteNote(int notesId)
+        {
+            try
+            {
+                string result = await this.noteManager.DeleteNote(notesId);
+                if (result.Equals("This note does not exist"))
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+                else
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

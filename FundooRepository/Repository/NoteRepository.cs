@@ -231,5 +231,34 @@ namespace FundooRepository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        //Api fot deleting a note to trash
+        public async Task<string> DeleteNote(int notesId)
+        {
+            try
+            {
+                var availNoteId = this.userContext.Notes.Where(x => x.NoteId == notesId).SingleOrDefault();
+                if (availNoteId != null)
+                {
+                    availNoteId.Trash = true; //Note deleted and added to trash bin
+                    if (availNoteId.Pinned == true)
+                    {
+                        availNoteId.Pinned = false;
+                        this.userContext.Notes.Update(availNoteId);
+                        await this.userContext.SaveChangesAsync();
+                        return "Note unpinned and trashed";
+                    }
+                    return "Note trashed";
+                }
+                else
+                {
+                    return "This note does not exist";
+                }
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

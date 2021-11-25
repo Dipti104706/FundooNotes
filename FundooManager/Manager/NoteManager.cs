@@ -95,5 +95,18 @@ namespace FundooManager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        //Api for deleting note to trash
+        public async Task<string> DeleteNote(int notesId)
+        {
+            try
+            {
+                return await this.noteRepository.DeleteNote(notesId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
