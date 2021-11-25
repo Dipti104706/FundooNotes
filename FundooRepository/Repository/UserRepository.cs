@@ -38,18 +38,14 @@ namespace FundooRepository.Repository
                 var validEmail = this.userContext.Users.Where(x => x.Email == userData.Email).FirstOrDefault();
                 if (validEmail == null)
                 {
-                    if (userData != null)
-                    {
-                        // Encrypting the password
-                        userData.Password = this.EncryptPassword(userData.Password);
-                        // Add the data to the database
-                        this.userContext.Add(userData);
-                        // Save the change in database
-                        //Using await 
-                        await this.userContext.SaveChangesAsync();
-                        return "Registration Successful";
-                    }
-                    return "Registration UnSuccessful";
+                    // Encrypting the password
+                    userData.Password = this.EncryptPassword(userData.Password);
+                    // Add the data to the database
+                    this.userContext.Add(userData);
+                    // Save the change in database
+                    //Using await 
+                    await this.userContext.SaveChangesAsync();
+                    return "Registration Successful";
                 }
                 return "Email Id Already Exists";
             }

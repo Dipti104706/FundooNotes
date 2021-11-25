@@ -393,5 +393,25 @@ namespace FundooRepository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        //Get all notes wrt userid
+        public IEnumerable<NoteModel> GetNotes(int userId) //IEnumerable used to get elements from the collection
+        {
+            try
+            {
+                IEnumerable<NoteModel> allNotes = (from notes in this.userContext.Notes
+                                                   where notes.UserId == userId && notes.Archieve == false && notes.Trash == false
+                                                   select notes);
+                if (allNotes != null)
+                {
+                    return allNotes;
+                }
+                return null;
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

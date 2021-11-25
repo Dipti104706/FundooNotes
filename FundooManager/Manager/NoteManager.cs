@@ -199,5 +199,18 @@ namespace FundooManager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        //Api for all notes for given userid
+        public IEnumerable<NoteModel> GetNotes(int userId)
+        {
+            try
+            {
+                return this.noteRepository.GetNotes(userId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

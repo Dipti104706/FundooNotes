@@ -344,5 +344,29 @@ namespace FundooNotesWebApp.Controller
                 return this.NotFound(new ResponseModel<string> { Status = false, Message = ex.Message });
             }
         }
+
+        //Api for getting a notes
+        [HttpGet]
+        [Route("api/getAllNotes")]
+        public IActionResult GetNotes(int userId)
+        {
+            try
+            {
+                IEnumerable<NoteModel> result = this.noteManager.GetNotes(userId);
+
+                if (result.Equals(null))
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Create a note" });
+                }
+                else
+                {
+                    return this.Ok(new ResponseModel<IEnumerable<NoteModel>>() { Status = true, Message = "Successfully Retrieved", Data = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string> { Status = false, Message = ex.Message });
+            }
+        }
     }
 }
