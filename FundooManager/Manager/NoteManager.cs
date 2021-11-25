@@ -173,5 +173,18 @@ namespace FundooManager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        //Api for all note with reminder
+        public IEnumerable<NoteModel> ShowReminderNotes(int userId)
+        {
+            try
+            {
+                return this.noteRepository.ShowReminderNotes(userId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

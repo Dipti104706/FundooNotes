@@ -31,18 +31,11 @@ namespace FundooRepository.Repository
         {
             try
             {
-                if (note != null)
-                {
-                    // Add the data to the database
-                    this.userContext.Notes.Add(note);
-                    //Save changes to database
-                    await this.userContext.SaveChangesAsync();
-                    return "Note is Added";
-                }
-                else
-                {
-                    return "Adding note unsuccessful";
-                }
+                // Add the data to the database
+                this.userContext.Notes.Add(note);
+                //Save changes to database
+                await this.userContext.SaveChangesAsync();
+                return "Note is Added";
             }
             catch (ArgumentNullException ex)
             {
@@ -133,20 +126,13 @@ namespace FundooRepository.Repository
                 var availNoteId = this.userContext.Notes.Where(x => x.NoteId == note.NoteId).FirstOrDefault();
                 if (availNoteId != null)
                 {
-                    if (note != null)
-                    {
-                        availNoteId.Title = note.Title; //updating title
-                        availNoteId.YourNotes = note.YourNotes;//updating description of note
-                        // Add the data to the database
-                        this.userContext.Notes.Update(availNoteId);
-                        //Save changes to database
-                        await this.userContext.SaveChangesAsync();
-                        return "Note is Updated Succssfully";
-                    }
-                    else
-                    {
-                        return "Updating note unsuccessful";
-                    }
+                    availNoteId.Title = note.Title; //updating title
+                    availNoteId.YourNotes = note.YourNotes;//updating description of note
+                    // Add the data to the database
+                    this.userContext.Notes.Update(availNoteId);
+                    //Save changes to database
+                    await this.userContext.SaveChangesAsync();
+                    return "Note is Updated Succssfully";
                 }
                 else
                 {
@@ -363,6 +349,24 @@ namespace FundooRepository.Repository
                 if (availUserId != null)
                 {
                     return availUserId;
+                }
+                return null;
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        ////Api for retrieve reminder notes
+        public IEnumerable<NoteModel> ShowReminderNotes(int userId)
+        {
+            try
+            {
+                IEnumerable<NoteModel> availRem = this.userContext.Notes.Where(x => x.UserId == userId && x.Remainder != null);
+                if (availRem != null)
+                {
+                    return availRem;
                 }
                 return null;
             }

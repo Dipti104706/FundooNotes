@@ -19,5 +19,6 @@ namespace FundooManager.Interface
         Task<string> AddReminder(int notesId, string remind);
         Task<string> DeleteReminder(int noteId);
         IEnumerable<NoteModel> GetArchiveNotes(int userId);
+        IEnumerable<NoteModel> ShowReminderNotes(int userId);
     }
 }
