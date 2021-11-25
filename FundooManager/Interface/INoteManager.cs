@@ -1,4 +1,5 @@
 ﻿using FundooModels;
+using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 
 namespace FundooManager.Interface
@@ -10,5 +11,6 @@ namespace FundooManager.Interface
         Task<string> NoteArchive(int noteId);
         Task<string> EditNotes(NoteModel note);
         Task<string> AddNoteAsPinned(int notesId);
+        Task<string> AddImage(int noteId, IFormFile form);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using FundooManager.Interface;
 using FundooModels;
 using FundooRepository.Interface;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -75,6 +76,19 @@ namespace FundooManager.Manager
             try
             {
                 return await this.noteRepository.AddNoteAsPinned(notesId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        //Api for adding image
+        public Task<string> AddImage(int noteId, IFormFile form)
+        {
+            try
+            {
+                return this.noteRepository.AddImage(noteId, form);
             }
             catch (Exception ex)
             {
