@@ -160,5 +160,18 @@ namespace FundooManager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        //Api for get all archieved notes
+        public IEnumerable<NoteModel> GetArchiveNotes(int userId)
+        {
+            try
+            {
+                return this.noteRepository.GetArchiveNotes(userId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

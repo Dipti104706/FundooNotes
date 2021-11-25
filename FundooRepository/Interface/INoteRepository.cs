@@ -1,6 +1,7 @@
 ﻿using FundooModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace FundooRepository.Interface
@@ -20,5 +21,6 @@ namespace FundooRepository.Interface
         Task<string> DeleteNoteFromTrash(int notesId);
         Task<string> AddReminder(int notesId, string remind);
         Task<string> DeleteReminder(int noteId);
+        IEnumerable<NoteModel> GetArchiveNotes(int userId);
     }
 }

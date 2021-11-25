@@ -272,5 +272,29 @@ namespace FundooNotesWebApp.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        //Api for getting all archieved notes
+        [HttpGet]
+        [Route("api/getArchieveNotes")]
+        public IActionResult GetArchiveNotes(int userId)
+        {
+            try
+            {
+                IEnumerable<NoteModel> result = this.noteManager.GetArchiveNotes(userId);
+
+                if (result.Equals(null))
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "No notes in Archieve" });
+                }
+                else
+                {
+                    return this.Ok(new ResponseModel<IEnumerable<NoteModel>>() { Status = true, Message = "Successfully Retrieved", Data = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string> { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

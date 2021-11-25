@@ -6,6 +6,7 @@ using FundooRepository.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -346,6 +347,24 @@ namespace FundooRepository.Repository
                     return "Reminder Deleted";
                 }
                 return "This note does not exist";
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        //Api for Retrieve all archieve notes
+        public IEnumerable<NoteModel> GetArchiveNotes(int userId)
+        {
+            try
+            {
+                IEnumerable<NoteModel> availUserId = this.userContext.Notes.Where(x => x.UserId == userId && x.Archieve == true);
+                if (availUserId != null)
+                {
+                    return availUserId;
+                }
+                return null;
             }
             catch (ArgumentNullException ex)
             {
