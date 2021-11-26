@@ -58,11 +58,13 @@ namespace FundooNotes.Controller
                     IDatabase database = connectionMultiplexer.GetDatabase();
                     string firstName = database.StringGet("First Name");
                     string lastName = database.StringGet("Last Name");
+                    int userId = Convert.ToInt32(database.StringGet("User Id"));
                     RegisterModel data = new RegisterModel
                     {
                         FirstName = firstName,
                         LastName = lastName,
-                        Email = login.Email
+                        Email = login.Email,
+                        UserId = userId
                     };
                     string token = this.manager.JWTTokenGeneration(login.Email);
                     return this.Ok(new { Status = true, Message = result, Data = data, Token = token });
