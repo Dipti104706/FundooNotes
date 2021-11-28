@@ -15,5 +15,6 @@ namespace FundooRepository.Context
         public DbSet<RegisterModel> Users { get; set; }
         public DbSet<NoteModel> Notes { get; set; }
         public DbSet<CollaboratorModel> Collabs { get; set; }
+        public DbSet<LabelModel> Labels { get; set; }
     }
 }
