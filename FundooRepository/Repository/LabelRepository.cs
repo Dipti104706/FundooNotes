@@ -40,5 +40,25 @@ namespace FundooRepository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        //api for adding label wrt noteid
+        public async Task<string> AddLabelNoteid(LabelModel labelModel)
+        {
+            try
+            {
+                var validLabel = this.userContext.Labels.Where(x => x.UserId == labelModel.UserId && x.NoteId == labelModel.NoteId).SingleOrDefault();
+                if (validLabel == null)
+                {
+                    this.userContext.Labels.Add(labelModel);
+                    await this.userContext.SaveChangesAsync();
+                    return "Added Label";
+                }
+                return "Label Already Exists";
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

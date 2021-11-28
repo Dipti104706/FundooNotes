@@ -29,5 +29,18 @@ namespace FundooManager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        //Api for adding labels wrt noteids
+        public async Task<string> AddLabelNoteid(LabelModel labelModel)
+        {
+            try
+            {
+                return await this.labelRepository.AddLabelNoteid(labelModel);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

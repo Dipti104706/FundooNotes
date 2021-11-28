@@ -9,5 +9,6 @@ namespace FundooRepository.Interface
         IConfiguration Configuration { get; }
 
         Task<string> AddLabelUserid(LabelModel labelModel);
+        Task<string> AddLabelNoteid(LabelModel labelModel);
     }
 }

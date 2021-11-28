@@ -42,5 +42,29 @@ namespace FundooNotesWebApp.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        //Api for adding lebel for userid
+        [HttpPost]
+        [Route("api/addlabelbynoteid")]
+        public async Task<IActionResult> AddLabelNoteid([FromBody] LabelModel label)
+        {
+            try
+            {
+                string result = await this.labelManager.AddLabelNoteid(label);
+
+                if (result.Equals("Added Label"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }
