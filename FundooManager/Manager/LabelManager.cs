@@ -94,5 +94,18 @@ namespace FundooManager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        //Retrieve all labels wrt note
+        public IEnumerable<LabelModel> GetLabelByNote(int notesId)
+        {
+            try
+            {
+                return this.labelRepository.GetLabelByNote(notesId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

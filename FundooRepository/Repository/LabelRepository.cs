@@ -139,5 +139,24 @@ namespace FundooRepository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        //api for retrieve labels wrt noteid
+        public IEnumerable<LabelModel> GetLabelByNote(int notesId)
+        {
+            try
+            {
+                IEnumerable<LabelModel> validLabel = this.userContext.Labels.Where(x => x.NoteId == notesId);
+                if (validLabel != null)
+                {
+                    return validLabel;
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

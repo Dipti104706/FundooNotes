@@ -12,5 +12,6 @@ namespace FundooManager.Interface
         Task<string> RemoveLabel(int labelId);
         Task<string> EditLabel(LabelModel labelModel);
         IEnumerable<string> GetLabelUserid(int userId);
+        IEnumerable<LabelModel> GetLabelByNote(int notesId);
     }
 }
