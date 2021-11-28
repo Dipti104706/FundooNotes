@@ -55,5 +55,18 @@ namespace FundooManager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        //remove label from notes
+        public async Task<string> RemoveLabel(int labelId)
+        {
+            try
+            {
+                return await this.labelRepository.RemoveLabel(labelId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

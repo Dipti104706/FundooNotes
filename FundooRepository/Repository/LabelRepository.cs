@@ -82,5 +82,26 @@ namespace FundooRepository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        //Remove label from note only not from userid
+        public async Task<string> RemoveLabel(int labelId)
+        {
+            try
+            {
+                var validLabel = this.userContext.Labels.Where(x => x.LabelId == labelId).SingleOrDefault();
+                if (validLabel != null)
+                {
+                    this.userContext.Labels.Remove(validLabel);
+                    await this.userContext.SaveChangesAsync();
+                    return "Deleted Label From Note";
+                }
+
+                return "No label present";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
