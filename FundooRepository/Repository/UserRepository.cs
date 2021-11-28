@@ -195,11 +195,11 @@ namespace FundooRepository.Repository
                 new Claim(ClaimTypes.Name, email)
             }),
                 Expires = DateTime.UtcNow.AddMinutes(30), //expiry time
-                SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature)//creating a digital signature
             };
             JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler(); //creating and validating JWT
             JwtSecurityToken token = handler.CreateJwtSecurityToken(descriptor);
-            return handler.WriteToken(token);
+            return handler.WriteToken(token);//write- serialize security token to web token
         }
     }
 }   
