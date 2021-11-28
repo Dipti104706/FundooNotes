@@ -60,5 +60,27 @@ namespace FundooRepository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        //Api for delete labels
+        public async Task<string> DeleteLabel(int userId, string labelName)
+        {
+            try
+            {
+                var validLabel = this.userContext.Labels.Where(x => x.LabelName == labelName && x.UserId == userId).ToList();
+                //for (i = 0;if<= validLabel.Count;i++)
+
+                if (validLabel != null)
+                {
+                    this.userContext.Labels.RemoveRange(validLabel);
+                    await this.userContext.SaveChangesAsync();
+                    return "Label Deleted";
+                }
+                return "Label not exist";
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

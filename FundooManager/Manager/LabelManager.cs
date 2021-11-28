@@ -42,5 +42,18 @@ namespace FundooManager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        //Api for delete a label wrt userid
+        public async Task<string> DeleteLabel(int userId, string labelName)
+        {
+            try
+            {
+                return await this.labelRepository.DeleteLabel(userId, labelName);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
