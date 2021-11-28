@@ -1,4 +1,5 @@
 ﻿using FundooModels;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace FundooManager.Interface
@@ -7,5 +8,6 @@ namespace FundooManager.Interface
     {
         Task<string> Collaborator(CollaboratorModel collaborator);
         Task<string> DeleteCollab(int noteId, string collabMail);
+        IEnumerable<string> GetCollaborator(int noteId);
     }
 }

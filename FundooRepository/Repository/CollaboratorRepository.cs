@@ -59,5 +59,23 @@ namespace FundooRepository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        //Api for getting all collaborators
+        public IEnumerable<string> GetCollaborator(int noteId)
+        {
+            try
+            {
+                IEnumerable<string> collaborators = (from note in this.userContext.Collabs where note.NoteId == noteId select note.SharedEmail);
+                if (collaborators != null)
+                {
+                    return collaborators;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
