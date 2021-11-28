@@ -43,5 +43,21 @@ namespace FundooRepository.Repository
             }
         }
 
+        //Api for delete collaboration
+        public async Task<string> DeleteCollab(int noteId, string collabMail)
+        {
+            try
+            {
+                //It delete perticular collab mail wrt note id
+                var removeCollab = this.userContext.Collabs.Where(x => x.NoteId == noteId && x.SharedEmail == collabMail).SingleOrDefault();
+                this.userContext.Collabs.Remove(removeCollab);
+                await this.userContext.SaveChangesAsync();
+                return "Removed Collaborator";
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

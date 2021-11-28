@@ -37,6 +37,9 @@ namespace FundoosNotesWebApp
             services.AddTransient<IUserManager, UserManager>();
             services.AddTransient<INoteManager, NoteManager>();
             services.AddTransient<INoteRepository, NoteRepository>();
+            services.AddTransient<ICollaboratorRepository, CollaboratorRepository>();
+            services.AddTransient<ICollaboratorManager, CollaboratorManager>();
+
             //Adding swagger services
             services.AddSwaggerGen(c =>
             {

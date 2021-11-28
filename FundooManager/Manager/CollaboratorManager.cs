@@ -27,5 +27,17 @@ namespace FundooManager.Manager
                 throw new Exception(e.Message);
             }
         }
+
+        public async Task<string> DeleteCollab(int noteId, string collabMail)
+        {
+            try
+            {
+                return await this.repository.DeleteCollab(noteId, collabMail);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }
