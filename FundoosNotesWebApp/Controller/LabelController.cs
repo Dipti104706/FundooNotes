@@ -114,5 +114,29 @@ namespace FundooNotesWebApp.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        //Edit lable api
+        [HttpPut]
+        [Route("api/editLabel")]
+        public async Task<IActionResult> EditLabel([FromBody] LabelModel label)
+        {
+            try
+            {
+                string result = await this.labelManager.EditLabel(label);
+
+                if (result.Equals("Label updated"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

@@ -68,5 +68,18 @@ namespace FundooManager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        //Edit label
+        public async Task<string> EditLabel(LabelModel labelModel)
+        {
+            try
+            {
+                return await this.labelRepository.EditLabel(labelModel);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

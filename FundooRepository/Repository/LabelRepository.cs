@@ -103,5 +103,23 @@ namespace FundooRepository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        //Edit label api
+        public async Task<string> EditLabel(LabelModel labelModel)
+        {
+            try
+            {
+                var validLabel = this.userContext.Labels.Where(x=>x.LabelId == labelModel.LabelId).Select(x => x.LabelName).SingleOrDefault();//select that label name and store it in a variable
+                var oldLabelname = this.userContext.Labels.Where(x => x.LabelName == validLabel).ToList();//check and get all model object with same label name from database
+                oldLabelname.ForEach(x => x.LabelName = labelModel.LabelName);//update all old name with new
+                this.userContext.Labels.UpdateRange(oldLabelname);
+                await this.userContext.SaveChangesAsync();
+                return "Label updated";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

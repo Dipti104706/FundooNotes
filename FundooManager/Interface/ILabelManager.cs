@@ -9,5 +9,6 @@ namespace FundooManager.Interface
         Task<string> AddLabelNoteid(LabelModel labelModel);
         Task<string> DeleteLabel(int userId, string labelName);
         Task<string> RemoveLabel(int labelId);
+        Task<string> EditLabel(LabelModel labelModel);
     }
 }
