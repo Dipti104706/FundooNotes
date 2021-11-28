@@ -138,5 +138,29 @@ namespace FundooNotesWebApp.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        //Api for getting all labels wrt userid
+        [HttpGet]
+        [Route("api/getlabelbyUserid")]
+        public IActionResult GetLabelUserid(int userId)
+        {
+            try
+            {
+                IEnumerable<string> result = this.labelManager.GetLabelUserid(userId);
+
+                if (result.Equals(null))
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "No label found" });
+                }
+                else
+                {
+                    return this.Ok(new ResponseModel<IEnumerable<string>>() { Status = true, Message = "Successfully Retrieved", Data = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string> { Status = false, Message = ex.Message });
+            }
+        }
     }
 }
