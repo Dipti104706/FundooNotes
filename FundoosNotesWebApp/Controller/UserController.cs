@@ -1,6 +1,7 @@
 ﻿using FundooManager.Interface;
 using FundooModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
 using System;
 using System.Threading.Tasks;
@@ -12,10 +13,13 @@ namespace FundooNotes.Controller
         //Creating reference for Interface
         private readonly IUserManager manager;
 
+        private readonly ILogger<UserController> logger;
+
         //Parametrized Constructor
-        public UserController(IUserManager manager)
+        public UserController(IUserManager manager, ILogger<UserController> logger)
         {
             this.manager = manager;
+            this.logger = logger;
         }
 
         //Method for User Register Request 
@@ -26,7 +30,7 @@ namespace FundooNotes.Controller
             try
             {
                 string result = await this.manager.Register(userData);
-
+                logger.LogInformation("New user added successfully with userid " + userData.UserId + " & firstname:" + userData.FirstName);
                 if (result.Equals("Registration Successful"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
@@ -38,6 +42,7 @@ namespace FundooNotes.Controller
             }
             catch (Exception ex)
             {
+                logger.LogWarning("Exception cought while adding new user" + ex.Message);
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
@@ -51,7 +56,7 @@ namespace FundooNotes.Controller
             try
             {
                 var result = this.manager.LogIn(login);
-
+                logger.LogInformation(login.Email + "Trying to log in");
                 if (result.Equals("Login Successful"))
                 {
                     ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
@@ -76,6 +81,7 @@ namespace FundooNotes.Controller
             }
             catch (Exception ex)
             {
+                logger.LogWarning("Exception cought while adding new user" + ex.Message);
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
@@ -88,7 +94,7 @@ namespace FundooNotes.Controller
             try
             {
                 string result = await this.manager.ResetPassword(reset);
-
+                logger.LogInformation(reset.Email + "is trying to reset password");
                 if (result.Equals("Password Updated Successfully"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
@@ -100,6 +106,7 @@ namespace FundooNotes.Controller
             }
             catch (Exception ex)
             {
+                logger.LogWarning("Exception cought while adding new user" + ex.Message);
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
@@ -112,7 +119,7 @@ namespace FundooNotes.Controller
             try
             {
                 string result = this.manager.ForgotPassword(email);
-
+                logger.LogInformation(email + "trying for forget password");
                 if (result.Equals("Email sent to user"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
@@ -124,6 +131,7 @@ namespace FundooNotes.Controller
             }
             catch (Exception ex)
             {
+                logger.LogWarning("Exception cought while adding new user" + ex.Message);
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
