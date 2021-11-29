@@ -42,6 +42,13 @@ namespace FundoosNotesWebApp
             services.AddTransient<ILabelRepository, LabelRepository>();
             services.AddTransient<ILabelManager, LabelManager>();
 
+            //Adding cors
+            services.AddCors(options => options.AddPolicy("AllowAllHeaders", builder =>
+            {
+                builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+            }));
             //Adding swagger services
             services.AddSwaggerGen(c =>
             {
@@ -104,6 +111,7 @@ namespace FundoosNotesWebApp
                 app.UseHsts();//header strict transfer security,
             }
             //All are middleswares
+            app.UseCors("AllowAllHeaders");
             app.UseHttpsRedirection();//redirect the http to https
             app.UseStaticFiles();//serve staticfiles(html,css,image) http req without any server side processing
 

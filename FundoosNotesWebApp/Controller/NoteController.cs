@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 namespace FundooNotesWebApp.Controller
 {
     [Authorize]
+    //Adding CORS
+    [ApiController]
+    [Route("api/[Controller]")]
     public class NoteController : ControllerBase
     {
         //Creating reference for Interface
@@ -24,7 +27,7 @@ namespace FundooNotesWebApp.Controller
 
         //Api for adding new note
         [HttpPost]
-        [Route("api/addNote")]
+        [Route("addNote")]
         public async Task<IActionResult> Notes([FromBody] NoteModel notesModel)
         {
             try
@@ -47,7 +50,7 @@ namespace FundooNotesWebApp.Controller
 
         //Api for change color
         [HttpPut]
-        [Route("api/changecolor")]
+        [Route("changecolor")]
         public async Task<IActionResult> ChangeColour(int noteId, string color)
         {
             try
@@ -70,7 +73,7 @@ namespace FundooNotesWebApp.Controller
 
         //Api for make note archieve
         [HttpPut]
-        [Route("api/archive")]
+        [Route("archive")]
         public async Task<IActionResult> NoteArchive(int notesId)
         {
             try
@@ -93,7 +96,7 @@ namespace FundooNotesWebApp.Controller
 
         //Api for updating title and description of existing notes
         [HttpPut]
-        [Route("api/editnote")]
+        [Route("editnote")]
         public async Task<IActionResult> EditNote([FromBody] NoteModel note)
         {
             try
@@ -116,7 +119,7 @@ namespace FundooNotesWebApp.Controller
 
         //Api for make note pinned
         [HttpPut]
-        [Route("api/pin")]
+        [Route("pinningNote")]
         public async Task<IActionResult> AddNoteAsPinned(int notesId)
         {
             try
@@ -139,7 +142,7 @@ namespace FundooNotesWebApp.Controller
 
         //api for adding image to note
         [HttpPut]
-        [Route("api/addImage")]
+        [Route("addImage")]
         public async Task<IActionResult> AddImage(int notesId, IFormFile image)
         {
             try
@@ -160,7 +163,7 @@ namespace FundooNotesWebApp.Controller
 
         //Api for make note delete
         [HttpPut]
-        [Route("api/trashed")]
+        [Route("trashed")]
         public async Task<IActionResult> DeleteNote(int notesId)
         {
             try
@@ -183,7 +186,7 @@ namespace FundooNotesWebApp.Controller
 
         //Api for restore note from trash
         [HttpPut]
-        [Route("api/restore")]
+        [Route("restore")]
         public async Task<IActionResult> RetrieveNoteFromTrash(int notesId)
         {
             try
@@ -206,7 +209,7 @@ namespace FundooNotesWebApp.Controller
 
         //Api for delete note permanately 
         [HttpDelete]
-        [Route("api/delete")]
+        [Route("delete")]
         public async Task<IActionResult> DeleteNoteFromTrash(int notesId)
         {
             try
@@ -229,7 +232,7 @@ namespace FundooNotesWebApp.Controller
 
         //Api for adding reminder to notes
         [HttpPut]
-        [Route("api/addReminder")]
+        [Route("addReminder")]
         public async Task<IActionResult> AddReminder([FromBody] int noteId, string remind)
         {
             try
@@ -252,7 +255,7 @@ namespace FundooNotesWebApp.Controller
 
         //Api for delete the reminder
         [HttpPut]
-        [Route("api/deleteReminder")]
+        [Route("deleteReminder")]
         public async Task<IActionResult> DeleteReminder(int noteId)
         {
             try
@@ -275,7 +278,7 @@ namespace FundooNotesWebApp.Controller
 
         //Api for getting all archieved notes
         [HttpGet]
-        [Route("api/getArchieveNotes")]
+        [Route("getArchieveNotes")]
         public IActionResult GetArchiveNotes(int userId)
         {
             try
@@ -299,7 +302,7 @@ namespace FundooNotesWebApp.Controller
 
         //Api for getting notes with reminder
         [HttpGet]
-        [Route("api/getReminderNotes")]
+        [Route("getReminderNotes")]
         public IActionResult ShowReminderNotes(int userId)
         {
             try
@@ -323,7 +326,7 @@ namespace FundooNotesWebApp.Controller
 
         //Api for getting all trashed notes
         [HttpGet]
-        [Route("api/getTrashedNotes")]
+        [Route("getTrashedNotes")]
         public IActionResult GetTrashNotes(int userId)
         {
             try
@@ -347,7 +350,7 @@ namespace FundooNotesWebApp.Controller
 
         //Api for getting a notes
         [HttpGet]
-        [Route("api/getAllNotes")]
+        [Route("getAllNotes")]
         public IActionResult GetNotes(int userId)
         {
             try

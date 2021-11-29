@@ -21,7 +21,7 @@ namespace FundooNotesWebApp.Controller
 
         //Api for adding lebel for userid
         [HttpPost]
-        [Route("api/addlabelbyuserid")]
+        [Route("addlabelbyuserid")]
         public async Task<IActionResult> AddLabelUserid([FromBody] LabelModel label)
         {
             try
@@ -45,7 +45,7 @@ namespace FundooNotesWebApp.Controller
 
         //Api for adding lebel for userid
         [HttpPost]
-        [Route("api/addlabelbynoteid")]
+        [Route("addlabelbynoteid")]
         public async Task<IActionResult> AddLabelNoteid([FromBody] LabelModel label)
         {
             try
@@ -69,7 +69,7 @@ namespace FundooNotesWebApp.Controller
 
         //Api for deletelable for user id
         [HttpDelete]
-        [Route("api/deletelabel")]
+        [Route("deletelabel")]
         public async Task<IActionResult> DeleteLabel(int userId, string labelName)
         {
             try
@@ -93,7 +93,7 @@ namespace FundooNotesWebApp.Controller
 
         //Api for remove labwl for noteid
         [HttpDelete]
-        [Route("api/removelable")]
+        [Route("removelable")]
         public async Task<IActionResult> RemoveLabel(int labelId)
         {
             try
@@ -117,7 +117,7 @@ namespace FundooNotesWebApp.Controller
 
         //Edit lable api
         [HttpPut]
-        [Route("api/editLabel")]
+        [Route("editLabel")]
         public async Task<IActionResult> EditLabel([FromBody] LabelModel label)
         {
             try
@@ -141,7 +141,7 @@ namespace FundooNotesWebApp.Controller
 
         //Api for getting all labels wrt userid
         [HttpGet]
-        [Route("api/getlabelbyUserid")]
+        [Route("getlabelbyUserid")]
         public IActionResult GetLabelUserid(int userId)
         {
             try
@@ -165,7 +165,7 @@ namespace FundooNotesWebApp.Controller
 
         //Api for getting all labels by noteid
         [HttpGet]
-        [Route("api/getlabelbynotes")]
+        [Route("getlabelbynotes")]
         public IActionResult GetLabelByNote(int notesId)
         {
             try

@@ -18,7 +18,7 @@ namespace FundooNotesWebApp.Controller
 
         //Api for adding collaborator to notes
         [HttpPost]
-        [Route("api/collaborator")]//API-Application programming interface
+        [Route("collaborator")]//API-Application programming interface
         public async Task<IActionResult> Collaborator([FromBody] CollaboratorModel collaborator)
         {
             try
@@ -42,7 +42,7 @@ namespace FundooNotesWebApp.Controller
 
         //Api for delete collator for notes
         [HttpDelete]
-        [Route("api/deletecollaborator")]
+        [Route("deletecollaborator")]
         public async Task<IActionResult> DeleteCollaborator(int noteId, string collabMail)
         {
             try
@@ -66,7 +66,7 @@ namespace FundooNotesWebApp.Controller
 
         //Api for Get the collaborators
         [HttpGet]
-        [Route("api/getCollab")]
+        [Route("getCollab")]
         public IActionResult GetCollaborator(int noteid)
         {
             try

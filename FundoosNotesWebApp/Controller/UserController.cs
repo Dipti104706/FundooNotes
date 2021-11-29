@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace FundooNotes.Controller
 {
+    [ApiController]
+    [Route("api/[Controller]")]
     public class UserController : ControllerBase
     {
         //Creating reference for Interface
@@ -24,7 +26,7 @@ namespace FundooNotes.Controller
 
         //Method for User Register Request 
         [HttpPost]
-        [Route("api/register")]
+        [Route("Register")]
         public async Task<IActionResult> Register([FromBody] RegisterModel userData) //frombody attribute says value read from body of the request
         {
             try
@@ -49,8 +51,8 @@ namespace FundooNotes.Controller
 
         //Api for Log in functionality
         //Async will not work for httpGet
-        [HttpGet]
-        [Route("api/Login")]
+        [HttpPost]
+        [Route("Login")]
         public IActionResult LogIn([FromBody] LoginModel login)
         {
             try
@@ -88,7 +90,7 @@ namespace FundooNotes.Controller
 
         //Reset password functionality
         [HttpPut]
-        [Route("api/reset")]
+        [Route("Reset")]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPsModel reset)
         {
             try
@@ -113,7 +115,7 @@ namespace FundooNotes.Controller
 
         //Forgot password functionality
         [HttpPost]
-        [Route("api/forgot")]
+        [Route("Forgot")]
         public IActionResult ForgotPassword(string email)
         {
             try
