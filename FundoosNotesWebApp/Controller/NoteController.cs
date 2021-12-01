@@ -1,31 +1,48 @@
-﻿using FundooManager.Interface;
-using FundooModels;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="NoteController.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="Diptimayee Behura"/>
+// --------------------------------------------------------------------------------------------------------------------
 
-namespace FundooNotesWebApp.Controller
+namespace FundooNotes.Controller
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using FundooManager.Interface;
+    using FundooModels;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+
+    /// <summary>
+    /// Notes controller class for API related to Notes
+    /// </summary>
     [Authorize]
-    //Adding CORS
     [ApiController]
     [Route("api/[Controller]")]
     public class NoteController : ControllerBase
     {
-        //Creating reference for Interface
+        /// <summary>
+        /// Declaring a object for note manager
+        /// </summary>
         private readonly INoteManager noteManager;
 
-        //Declaring parameterized constructor
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NoteController"/> class
+        /// </summary>
+        /// <param name="noteManager">passing a notes manager</param>
         public NoteController(INoteManager noteManager)
         {
             this.noteManager = noteManager;
         }
 
-        //Api for adding new note
+        /// <summary>
+        /// Add notes API
+        /// </summary>
+        /// <param name="notesModel">passing a note model </param>
+        /// <returns>Returns a IAction Result</returns>
         [HttpPost]
         [Route("addNote")]
         public async Task<IActionResult> Notes([FromBody] NoteModel notesModel)
@@ -48,7 +65,12 @@ namespace FundooNotesWebApp.Controller
             }
         }
 
-        //Api for change color
+        /// <summary>
+        /// API for change color
+        /// </summary>
+        /// <param name="noteId">passing noteId as integer</param>
+        /// <param name="color">passing color as string</param>
+        /// <returns>Returns a IAction Result</returns>
         [HttpPut]
         [Route("changecolor")]
         public async Task<IActionResult> ChangeColour(int noteId, string color)
@@ -71,7 +93,11 @@ namespace FundooNotesWebApp.Controller
             }
         }
 
-        //Api for make note archieve
+        /// <summary>
+        /// Archive Notes API
+        /// </summary>
+        /// <param name="notesId">passing a note id as integer</param>
+        /// <returns>Returns a IAction Result</returns>
         [HttpPut]
         [Route("archive")]
         public async Task<IActionResult> NoteArchive(int notesId)
@@ -94,7 +120,11 @@ namespace FundooNotesWebApp.Controller
             }
         }
 
-        //Api for updating title and description of existing notes
+        /// <summary>
+        /// updating title and description of existing notes
+        /// </summary>
+        /// <param name="note">passing as Note model</param>
+        /// <returns>Returns a IAction Result</returns>
         [HttpPut]
         [Route("editnote")]
         public async Task<IActionResult> EditNote([FromBody] NoteModel note)
@@ -117,9 +147,13 @@ namespace FundooNotesWebApp.Controller
             }
         }
 
-        //Api for make note pinned
+        /// <summary>
+        /// Pin notes API 
+        /// </summary>
+        /// <param name="notesId">passing a note id as integer</param>
+        /// <returns>Returns a IAction Result</returns>
         [HttpPut]
-        [Route("pinningNote")]
+        [Route("pinnigNote")]
         public async Task<IActionResult> AddNoteAsPinned(int notesId)
         {
             try
@@ -140,30 +174,13 @@ namespace FundooNotesWebApp.Controller
             }
         }
 
-        //api for adding image to note
+        /// <summary>
+        /// Trash notes API
+        /// </summary>
+        /// <param name="notesId">passing a note id as integer</param>
+        /// <returns>Returns a IAction Result</returns>
         [HttpPut]
-        [Route("addImage")]
-        public async Task<IActionResult> AddImage(int notesId, IFormFile image)
-        {
-            try
-            {
-                string result = await this.noteManager.AddImage(notesId, image);
-                if (result == "Image added Successfully")
-                {
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
-                }
-
-                return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
-            }
-            catch (Exception ex)
-            {
-                return this.NotFound(new ResponseModel<string>() { Status = true, Message = ex.Message });
-            }
-        }
-
-        //Api for make note delete
-        [HttpPut]
-        [Route("trashed")]
+        [Route("Notetrashed")]
         public async Task<IActionResult> DeleteNote(int notesId)
         {
             try
@@ -184,9 +201,13 @@ namespace FundooNotesWebApp.Controller
             }
         }
 
-        //Api for restore note from trash
+        /// <summary>
+        /// API for restore note from trash
+        /// </summary>
+        /// <param name="notesId">passing a note id as integer</param>
+        /// <returns>Returns a IAction Result</returns>
         [HttpPut]
-        [Route("restore")]
+        [Route("restoreNote")]
         public async Task<IActionResult> RetrieveNoteFromTrash(int notesId)
         {
             try
@@ -207,9 +228,13 @@ namespace FundooNotesWebApp.Controller
             }
         }
 
-        //Api for delete note permanately 
+        /// <summary>
+        /// API for delete note permanently from trash
+        /// </summary>
+        /// <param name="notesId">passing a note id as integer</param>
+        /// <returns>Returns a IAction Result</returns>
         [HttpDelete]
-        [Route("delete")]
+        [Route("deletepermanately")]
         public async Task<IActionResult> DeleteNoteFromTrash(int notesId)
         {
             try
@@ -230,7 +255,12 @@ namespace FundooNotesWebApp.Controller
             }
         }
 
-        //Api for adding reminder to notes
+        /// <summary>
+        /// API for adding reminder to notes
+        /// </summary>
+        /// <param name="noteId">passing a note id as integer</param>
+        /// <param name="remind">passing a remainder as string</param>
+        /// <returns>Returns a IAction Result</returns>
         [HttpPut]
         [Route("addReminder")]
         public async Task<IActionResult> AddReminder([FromBody] int noteId, string remind)
@@ -253,7 +283,11 @@ namespace FundooNotesWebApp.Controller
             }
         }
 
-        //Api for delete the reminder
+        /// <summary>
+        /// Delete Remainder API
+        /// </summary>
+        /// <param name="noteId">passing a note id as integer</param>
+        /// <returns>Returns a IAction Result</returns>
         [HttpPut]
         [Route("deleteReminder")]
         public async Task<IActionResult> DeleteReminder(int noteId)
@@ -276,10 +310,14 @@ namespace FundooNotesWebApp.Controller
             }
         }
 
-        //Api for getting all archieved notes
+        /// <summary>
+        /// API for getting all archive notes
+        /// </summary>
+        /// <param name="userId">passing a user id as integer</param>
+        /// <returns>Returns a IAction Result</returns>
         [HttpGet]
         [Route("getArchieveNotes")]
-        public IActionResult GetArchiveNotes(int userId)
+        public IActionResult GetArchieveNotes(int userId)
         {
             try
             {
@@ -287,7 +325,7 @@ namespace FundooNotesWebApp.Controller
 
                 if (result.Equals(null))
                 {
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "No notes in Archieve" });
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "No notes in Archive" });
                 }
                 else
                 {
@@ -300,7 +338,11 @@ namespace FundooNotesWebApp.Controller
             }
         }
 
-        //Api for getting notes with reminder
+        /// <summary>
+        /// API for getting notes with reminder
+        /// </summary>
+        /// <param name="userId">passing userId as integer</param>
+        /// <returns>Returns a IAction Result</returns>
         [HttpGet]
         [Route("getReminderNotes")]
         public IActionResult ShowReminderNotes(int userId)
@@ -324,7 +366,11 @@ namespace FundooNotesWebApp.Controller
             }
         }
 
-        //Api for getting all trashed notes
+        /// <summary>
+        /// Get notes from Trash API
+        /// </summary>
+        /// <param name="userId">passing a user id as integer</param>
+        /// <returns>Returns a IAction Result</returns>
         [HttpGet]
         [Route("getTrashedNotes")]
         public IActionResult GetTrashNotes(int userId)
@@ -348,7 +394,11 @@ namespace FundooNotesWebApp.Controller
             }
         }
 
-        //Api for getting a notes
+        /// <summary>
+        /// API for getting a notes
+        /// </summary>
+        /// <param name="userId">passing a user id</param>
+        /// <returns>Returns a IAction Result</returns>
         [HttpGet]
         [Route("getAllNotes")]
         public IActionResult GetNotes(int userId)
@@ -369,6 +419,59 @@ namespace FundooNotesWebApp.Controller
             catch (Exception ex)
             {
                 return this.NotFound(new ResponseModel<string> { Status = false, Message = ex.Message });
+            }
+        }
+
+        /// <summary>
+        /// API for adding image to note
+        /// </summary>
+        /// <param name="notesId">passing a note id as integer</param>
+        /// <param name="image">passing a image in the IForm File</param>
+        /// <returns>Returns a IAction Result</returns>
+        [HttpPut]
+        [Route("addImage")]
+        public async Task<IActionResult> AddImage(int notesId, IFormFile image)
+        {
+            try
+            {
+                string result = await this.noteManager.AddImage(notesId, image);
+                if (result == "Image added Successfully")
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+
+                return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = true, Message = ex.Message });
+            }
+        }
+
+        /// <summary>
+        /// Remove image from notes API
+        /// </summary>
+        /// <param name="noteId">Passing noteId as integer</param>
+        /// <returns>Returns a IAction Result</returns>
+        [HttpPut]
+        [Route("removImage")]
+        public async Task<IActionResult> RemoveImage(int noteId)
+        {
+            try
+            {
+                string result = await this.noteManager.RemoveImage(noteId);
+                if (result.Equals("Removed Image successfully"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
     }

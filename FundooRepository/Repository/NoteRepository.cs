@@ -1,41 +1,71 @@
-﻿using CloudinaryDotNet;
-using CloudinaryDotNet.Actions;
-using FundooModels;
-using FundooRepository.Context;
-using FundooRepository.Interface;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="NoteRepository.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="Diptimayee"/>
+// ----------------------------------------------------------------------------------------------------------
 
 namespace FundooRepository.Repository
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using CloudinaryDotNet;
+    using CloudinaryDotNet.Actions;
+    using FundooModels;
+    using FundooRepository.Context;
+    using FundooRepository.Interface;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.Configuration;
+
+    /// <summary>
+    /// Class for NoteRepository with all Note functionalities
+    /// </summary>
     public class NoteRepository : INoteRepository
     {
-        //Creating object for Usercontext
+        /// <summary>
+        /// User Context Objects
+        /// </summary>
         private readonly UserContext userContext;
 
-        //Declaring parameterized constructor
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NoteRepository"/> class
+        /// </summary>
+        /// <param name="configuration">IConfiguration configuration</param>
+        /// <param name="userContext">UserContext userContext</param>
         public NoteRepository(IConfiguration configuration, UserContext userContext)
         {
             this.Configuration = configuration;
             this.userContext = userContext;
         }
 
+        /// <summary>
+        /// Gets the Configuration object of IConfiguration
+        /// </summary>
         public IConfiguration Configuration { get; }
 
-        //Method for adding notes in the fundoo note application
+        /// <summary>
+        /// Adding notes
+        /// </summary>
+        /// <param name="note">NoteModel notesModel</param>
+        /// <returns>returns a string as note added successful</returns>
         public async Task<string> CreateNote(NoteModel note)
         {
             try
             {
-                // Add the data to the database
-                this.userContext.Notes.Add(note);
-                //Save changes to database
-                await this.userContext.SaveChangesAsync();
-                return "Note is Added";
+                if (note.Title != null)
+                {
+                    ////Add the data to the database
+                    this.userContext.Notes.Add(note);
+                    ////Save changes to database
+                    await this.userContext.SaveChangesAsync();
+                    return "Note is Added";
+                }
+                else
+                {
+                    return "Adding note unsuccessful";
+                }
             }
             catch (ArgumentNullException ex)
             {
@@ -43,7 +73,12 @@ namespace FundooRepository.Repository
             }
         }
 
-        //Api for change color of the existing note
+        /// <summary>
+        /// Change color of existing note
+        /// </summary>
+        /// <param name="noteId">integer noteId</param>
+        /// <param name="color">string color</param>
+        /// <returns>returns string on adding color successfully</returns>
         public async Task<string> ChangeColour(int noteId, string color)
         {
             try
@@ -74,35 +109,41 @@ namespace FundooRepository.Repository
             }
         }
 
-        //API for making note as archieve
+        /// <summary>
+        /// Adding note to archive
+        /// </summary>
+        /// <param name="noteId">integer notesId</param>
+        /// <returns>returns the string after note added to archive</returns>
         public async Task<string> NoteArchive(int noteId)
         {
             try
             {
                 string res;
                 var availNote = this.userContext.Notes.Where(x => x.NoteId == noteId).SingleOrDefault();
-                if (availNote != null) //checking this note exist or not
+                ////checking this note exist or not
+                if (availNote != null)
                 {
                     if (availNote.Archieve == false)
                     {
-                        availNote.Archieve = true; //Making note stored in archeive
-                        if (availNote.Pinned == true) //Now checking is that note is pinned or not
+                        availNote.Archieve = true; ////Making note stored in archeive
+                        if (availNote.Pinned == true)
                         {
-                            availNote.Pinned = false;//making it unpinned , then stored in archieve
+                            availNote.Pinned = false; ////making it unpinned, then stored in archieve
                             res = "Notes unpinned and moved to Archived";
                         }
                         else
                         {
-                            //If that note is not pinned , then directly note can be archieved
+                            ////If that note is not pinned , then directly note can be archieved
                             res = "Note archived";
                         }
                     }
                     else
                     {
-                        //if the note is already archieved , then make that unarchieved
+                        ////if the note is already archieved , then make that unarchieved
                         availNote.Archieve = false;
                         res = "Note unarchived";
                     }
+
                     this.userContext.Notes.Update(availNote);
                     await this.userContext.SaveChangesAsync();
                 }
@@ -110,6 +151,7 @@ namespace FundooRepository.Repository
                 {
                     res = "This note does not exist";
                 }
+
                 return res;
             }
             catch (ArgumentNullException ex)
@@ -118,7 +160,11 @@ namespace FundooRepository.Repository
             }
         }
 
-        //Api for Edit title and description of notes 
+        /// <summary>
+        /// Updates the title or description of existing notes
+        /// </summary>
+        /// <param name="note">NotesModel notesModel</param>
+        /// <returns>returns string on successful update of data for title and your Note</returns> 
         public async Task<string> EditNotes(NoteModel note)
         {
             try
@@ -126,13 +172,20 @@ namespace FundooRepository.Repository
                 var availNoteId = this.userContext.Notes.Where(x => x.NoteId == note.NoteId).FirstOrDefault();
                 if (availNoteId != null)
                 {
-                    availNoteId.Title = note.Title; //updating title
-                    availNoteId.YourNotes = note.YourNotes;//updating description of note
-                    // Add the data to the database
-                    this.userContext.Notes.Update(availNoteId);
-                    //Save changes to database
-                    await this.userContext.SaveChangesAsync();
-                    return "Note is Updated Succssfully";
+                    if (note != null)
+                    {
+                        availNoteId.Title = note.Title; ////updating title
+                        availNoteId.YourNotes = note.YourNotes; ////updating description of note
+                        ////Add the data to the database
+                        this.userContext.Notes.Update(availNoteId);
+                        ////Save changes to database
+                        await this.userContext.SaveChangesAsync();
+                        return "Note is Updated Succssfully";
+                    }
+                    else
+                    {
+                        return "Updating note unsuccessful";
+                    }
                 }
                 else
                 {
@@ -145,7 +198,11 @@ namespace FundooRepository.Repository
             }
         }
 
-        //Api for Making note as pinned
+        /// <summary>
+        /// Updates the boolean value for Pin
+        /// </summary>
+        /// <param name="notesId">integer notesId</param>
+        /// <returns>returns a string after updating pin</returns>
         public async Task<string> AddNoteAsPinned(int notesId)
         {
             try
@@ -157,19 +214,23 @@ namespace FundooRepository.Repository
                     if (availNoteId.Pinned == false)
                     {
                         availNoteId.Pinned = true;
-                        if (availNoteId.Archieve == true) //Now checking is that note is pinned or not
+                        ////Now checking is that note is pinned or not
+                        if (availNoteId.Archieve == true)
                         {
-                            availNoteId.Archieve = false;//making it unpinned , then stored in archieve
+                            availNoteId.Archieve = false; ////making it unpinned , then stored in archieve
                             res = "Notes unarchieved and pinned";
                         }
                         else
+                        {
                             res = "Note pinned";
+                        }
                     }
                     else
                     {
                         availNoteId.Pinned = false;
                         res = "Note unpinned";
                     }
+
                     this.userContext.Notes.Update(availNoteId);
                     await this.userContext.SaveChangesAsync();
                 }
@@ -177,6 +238,7 @@ namespace FundooRepository.Repository
                 {
                     res = "This note does not exist";
                 }
+
                 return res;
             }
             catch (ArgumentNullException ex)
@@ -185,41 +247,11 @@ namespace FundooRepository.Repository
             }
         }
 
-        //Api for adding image
-        public async Task<string> AddImage(int noteId, IFormFile form)
-        {
-            try
-            {
-                var availNote = this.userContext.Notes.Where(x => x.NoteId == noteId).SingleOrDefault();
-                if (availNote != null)
-                {
-                    var cloudinary = new Cloudinary(
-                                                new Account(
-                                                "denc5oxgu",
-                                                "637868744849594",
-                                                "BkvR84UOh4LNjRCZaoqFvEhh_dk"));
-                    var addingImage = new ImageUploadParams()
-                    {
-                        File = new FileDescription(form.FileName, form.OpenReadStream()),
-                    };
-
-                    var uploadResult = cloudinary.Upload(addingImage);
-                    var uploadPath = uploadResult.Url;
-                    availNote.Image = uploadPath.ToString();
-                    this.userContext.Notes.Update(availNote);
-                    await this.userContext.SaveChangesAsync();
-                    return "Image added Successfully";
-                }
-                else
-                    return "This note doesn't Exists";
-            }
-            catch (ArgumentNullException ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
-        //Api fot deleting a note to trash
+        /// <summary>
+        /// Updates the boolean value for Trash
+        /// </summary>
+        /// <param name="notesId">integer notesId</param>
+        /// <returns> returns string on adding notes to trash after deletion</returns>
         public async Task<string> DeleteNote(int notesId)
         {
             try
@@ -227,7 +259,7 @@ namespace FundooRepository.Repository
                 var availNoteId = this.userContext.Notes.Where(x => x.NoteId == notesId).SingleOrDefault();
                 if (availNoteId != null)
                 {
-                    availNoteId.Trash = true; //Note deleted and added to trash bin
+                    availNoteId.Trash = true; ////Note deleted and added to trash bin
                     if (availNoteId.Pinned == true)
                     {
                         availNoteId.Pinned = false;
@@ -235,6 +267,7 @@ namespace FundooRepository.Repository
                         await this.userContext.SaveChangesAsync();
                         return "Note unpinned and trashed";
                     }
+
                     return "Note trashed";
                 }
                 else
@@ -248,7 +281,11 @@ namespace FundooRepository.Repository
             }
         }
 
-        //Api for retrieve note from trash
+        /// <summary>
+        /// Restore to home from trash
+        /// </summary>
+        /// <param name="notesId">integer notesId</param>
+        /// <returns>returns a string on successful restore</returns>
         public async Task<string> RetrieveNoteFromTrash(int notesId)
         {
             try
@@ -256,7 +293,7 @@ namespace FundooRepository.Repository
                 var availNoteId = this.userContext.Notes.Where(x => x.NoteId == notesId).FirstOrDefault();
                 if (availNoteId != null)
                 {
-                    availNoteId.Trash = false; //Note retrieved from trash
+                    availNoteId.Trash = false; ////Note retrieved from trash
                     this.userContext.Notes.Update(availNoteId);
                     await this.userContext.SaveChangesAsync();
                     return "Note restored";
@@ -272,7 +309,11 @@ namespace FundooRepository.Repository
             }
         }
 
-        //Delete note permanently from trash
+        /// <summary>
+        /// Delete data from trash
+        /// </summary>
+        /// <param name="notesId">integer notesId</param>
+        /// <returns>returns a string on successful delete</returns>
         public async Task<string> DeleteNoteFromTrash(int notesId)
         {
             try
@@ -295,7 +336,12 @@ namespace FundooRepository.Repository
             }
         }
 
-        //Api for Add remainder
+        /// <summary>
+        /// Adding remainder
+        /// </summary>
+        /// <param name="notesId">integer notesId</param>
+        /// <param name="remind">string remainder</param>
+        /// <returns>returns string on adding successful remainder</returns>
         public async Task<string> AddReminder(int notesId, string remind)
         {
             try
@@ -319,7 +365,11 @@ namespace FundooRepository.Repository
             }
         }
 
-        //Api for delete remainder
+        /// <summary>
+        /// Delete remainder
+        /// </summary>
+        /// <param name="noteId">integer notesId</param>
+        /// <returns>returns string after removing the remainder</returns>
         public async Task<string> DeleteReminder(int noteId)
         {
             try
@@ -332,6 +382,7 @@ namespace FundooRepository.Repository
                     await this.userContext.SaveChangesAsync();
                     return "Reminder Deleted";
                 }
+
                 return "This note does not exist";
             }
             catch (ArgumentNullException ex)
@@ -340,7 +391,11 @@ namespace FundooRepository.Repository
             }
         }
 
-        //Api for Retrieve all archieve notes
+        /// <summary>
+        /// Get all archived notes
+        /// </summary>
+        /// <param name="userId">integer userId</param>
+        /// <returns>returns list of all archived</returns>
         public IEnumerable<NoteModel> GetArchiveNotes(int userId)
         {
             try
@@ -350,6 +405,7 @@ namespace FundooRepository.Repository
                 {
                     return availUserId;
                 }
+
                 return null;
             }
             catch (ArgumentNullException ex)
@@ -358,7 +414,11 @@ namespace FundooRepository.Repository
             }
         }
 
-        ////Api for retrieve reminder notes
+        /// <summary>
+        /// Get all Reminder Notes
+        /// </summary>
+        /// <param name="userId">integer userId</param>
+        /// <returns>returns list of reminders</returns>
         public IEnumerable<NoteModel> ShowReminderNotes(int userId)
         {
             try
@@ -368,6 +428,7 @@ namespace FundooRepository.Repository
                 {
                     return availRem;
                 }
+
                 return null;
             }
             catch (ArgumentNullException ex)
@@ -376,7 +437,11 @@ namespace FundooRepository.Repository
             }
         }
 
-        //Get all trashed notes
+        /// <summary>
+        /// Get all trashed Notes
+        /// </summary>
+        /// <param name="userId">integer userId</param>
+        /// <returns>returns list of trashed</returns>
         public IEnumerable<NoteModel> GetTrashNotes(int userId)
         {
             try
@@ -386,6 +451,7 @@ namespace FundooRepository.Repository
                 {
                     return availTrashed;
                 }
+
                 return null;
             }
             catch (ArgumentNullException ex)
@@ -394,19 +460,90 @@ namespace FundooRepository.Repository
             }
         }
 
-        //Get all notes wrt userid
-        public IEnumerable<NoteModel> GetNotes(int userId) //IEnumerable used to get elements from the collection
+        /// <summary>
+        /// Get all Notes of user Id
+        /// </summary>
+        /// <param name="userId">integer userId</param>
+        /// <returns>returns list of all notes</returns>
+        public IEnumerable<NoteModel> GetNotes(int userId) ////IEnumerable used to get elements from the collection
         {
             try
             {
-                IEnumerable<NoteModel> allNotes = (from notes in this.userContext.Notes
-                                                   where notes.UserId == userId && notes.Archieve == false && notes.Trash == false
-                                                   select notes);
+                IEnumerable<NoteModel> allNotes = from notes in this.userContext.Notes
+                                                  where notes.UserId == userId && notes.Archieve == false && notes.Trash == false
+                                                  select notes;
                 if (allNotes != null)
                 {
                     return allNotes;
                 }
+
                 return null;
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Adding Image to notes
+        /// </summary>
+        /// <param name="noteId">integer notesId</param>
+        /// <param name="form">IFormFile image</param>
+        /// <returns>returns string after successfully adding image</returns>
+        public async Task<string> AddImage(int noteId, IFormFile form)
+        {
+            try
+            {
+                var availNote = this.userContext.Notes.Where(x => x.NoteId == noteId).SingleOrDefault();
+                if (availNote != null)
+                {
+                    var cloudinary = new Cloudinary(
+                                                new Account(
+                                                "denc5oxgu",
+                                                "637868744849594",
+                                                "BkvR84UOh4LNjRCZaoqFvEhh_dk"));
+                    var addingImage = new ImageUploadParams()
+                    {
+                        File = new FileDescription(form.FileName, form.OpenReadStream()),
+                    };
+                    var uploadResult = cloudinary.Upload(addingImage);
+                    var uploadPath = uploadResult.Url;
+                    availNote.Image = uploadPath.ToString();
+                    this.userContext.Notes.Update(availNote);
+                    await this.userContext.SaveChangesAsync();
+                    return "Image added Successfully";
+                }
+                else
+                {
+                    return "This note doesn't Exists";
+                }
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// API for remove image from notes
+        /// </summary>
+        /// <param name="noteId">noteId passed as integer</param>
+        /// <returns>returns string after successfully removing image</returns>
+        public async Task<string> RemoveImage(int noteId)
+        {
+            try
+            {
+                var existNote = this.userContext.Notes.Where(x => x.NoteId == noteId).SingleOrDefault();
+                if (existNote != null)
+                {
+                    existNote.Image = null;
+                    this.userContext.Notes.Update(existNote);
+                    await this.userContext.SaveChangesAsync();
+                    return "Removed Image successfully";
+                }
+
+                return "This note does not exist";
             }
             catch (ArgumentNullException ex)
             {

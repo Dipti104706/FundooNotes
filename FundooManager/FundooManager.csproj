@@ -10,4 +10,11 @@
     <ProjectReference Include="..\FundoosModels\FundooModels.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Interface\IUserManager.cs">
+      <ExcludeFromSourceAnalysis>True</ExcludeFromSourceAnalysis>
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Compile>
+  </ItemGroup>
+
 </Project>

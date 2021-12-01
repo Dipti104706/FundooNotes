@@ -1,14 +1,41 @@
-﻿using FundooModels;
-using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ICollabRepository.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="Diptimayee"/>
+// ----------------------------------------------------------------------------------------------------------
 
 namespace FundooRepository.Interface
 {
-    public interface ICollaboratorRepository
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using FundooModels;
+
+    /// <summary>
+    /// Interface class for ICollabRepository
+    /// </summary>
+    public interface ICollabRepository
     {
-        Task<string> AddCollaborator(CollaboratorModel collab);
+        /// <summary>
+        /// Adding new collaborator
+        /// </summary>
+        /// <param name="collaborator">passing as CollaboratorModel collaborator</param>
+        /// <returns>returns string after adding collaborator</returns>
+        Task<string> AddCollaborator(CollaboratorModel collaborator);
+
+        /// <summary>
+        /// Delete collaborator
+        /// </summary>
+        /// /// <param name="noteId">integer noteId</param>
+        /// <param name="collabMail">integer colId</param>
+        /// <returns>returns string after deleting collaborator</returns>
         Task<string> DeleteCollab(int noteId, string collabMail);
+
+        /// <summary>
+        /// Gets all collaborators
+        /// </summary>
+        /// <param name="noteId">integer noteId</param>
+        /// <returns>returns string after getting collaborator</returns>
         IEnumerable<string> GetCollaborator(int noteId);
     }
 }

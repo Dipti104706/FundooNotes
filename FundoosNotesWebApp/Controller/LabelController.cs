@@ -1,25 +1,45 @@
-﻿using FundooManager.Interface;
-using FundooModels;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="LabelController.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="Diptimayee Behura"/>
+// --------------------------------------------------------------------------------------------------------------------
 
-namespace FundooNotesWebApp.Controller
+namespace FundooNotes.Controller
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using FundooManager.Interface;
+    using FundooModels;
+    using Microsoft.AspNetCore.Mvc;
+
+    /// <summary>
+    /// label controller class 
+    /// </summary>
+    [ApiController]
+    [Route("api/[Controller]")]
     public class LabelController : ControllerBase
     {
-        //Creating reference for Interface
+        /// <summary>
+        /// Declaring a label manager
+        /// </summary>
         private readonly ILabelManager labelManager;
 
-        //Declaring parameterized constructor
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LabelController"/> class
+        /// </summary>
+        /// <param name="labelManager">passing a label manager</param>
         public LabelController(ILabelManager labelManager)
         {
             this.labelManager = labelManager;
         }
 
-        //Api for adding lebel for userid
+        /// <summary>
+        /// Adding label with respect to UserId method 
+        /// </summary>
+        /// <param name="label">passing a label model</param>
+        /// <returns>returns a IAction result</returns>
         [HttpPost]
         [Route("addlabelbyuserid")]
         public async Task<IActionResult> AddLabelUserid([FromBody] LabelModel label)
@@ -43,7 +63,11 @@ namespace FundooNotesWebApp.Controller
             }
         }
 
-        //Api for adding lebel for userid
+        /// <summary>
+        /// Adding label w.r.t NoteId method 
+        /// </summary>
+        /// <param name="label">passing a label model</param>
+        /// <returns>returns a IAction result</returns>
         [HttpPost]
         [Route("addlabelbynoteid")]
         public async Task<IActionResult> AddLabelNoteid([FromBody] LabelModel label)
@@ -67,7 +91,12 @@ namespace FundooNotesWebApp.Controller
             }
         }
 
-        //Api for deletelable for user id
+        /// <summary>
+        /// API for delete label for userId
+        /// </summary>
+        /// <param name="userId">Passing userId as integer</param>
+        /// <param name="labelName">label name as string</param>
+        /// <returns>returns a IAction result</returns>
         [HttpDelete]
         [Route("deletelabel")]
         public async Task<IActionResult> DeleteLabel(int userId, string labelName)
@@ -91,7 +120,11 @@ namespace FundooNotesWebApp.Controller
             }
         }
 
-        //Api for remove labwl for noteid
+        /// <summary>
+        /// Remove label in notes method
+        /// </summary>
+        /// <param name="labelId">passing  a label id as integer</param>
+        /// <returns>returns a IAction result</returns>
         [HttpDelete]
         [Route("removelable")]
         public async Task<IActionResult> RemoveLabel(int labelId)
@@ -115,7 +148,11 @@ namespace FundooNotesWebApp.Controller
             }
         }
 
-        //Edit lable api
+        /// <summary>
+        /// API for update label name
+        /// </summary>
+        /// <param name="label">passing label as label model</param>
+        /// <returns> return a IAction result</returns>
         [HttpPut]
         [Route("editLabel")]
         public async Task<IActionResult> EditLabel([FromBody] LabelModel label)
@@ -139,7 +176,11 @@ namespace FundooNotesWebApp.Controller
             }
         }
 
-        //Api for getting all labels wrt userid
+        /// <summary>
+        /// API for getting all labels w.r.t userId
+        /// </summary>
+        /// <param name="userId">passing a userId as integer</param>
+        /// <returns>returns a IAction Result</returns>
         [HttpGet]
         [Route("getlabelbyUserid")]
         public IActionResult GetLabelUserid(int userId)
@@ -163,7 +204,11 @@ namespace FundooNotesWebApp.Controller
             }
         }
 
-        //Api for getting all labels by noteid
+        /// <summary>
+        /// Getting all labels by notesId
+        /// </summary>
+        /// <param name="notesId">passing a notesId</param>
+        /// <returns>Returns a IAction Result</returns>
         [HttpGet]
         [Route("getlabelbynotes")]
         public IActionResult GetLabelByNote(int notesId)

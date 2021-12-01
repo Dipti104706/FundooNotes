@@ -1,23 +1,42 @@
-﻿using FundooManager.Interface;
-using FundooModels;
-using FundooRepository.Interface;
-using System;
-using System.Threading.Tasks;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="UserManager.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="Diptimayee"/>
+// ----------------------------------------------------------------------------------------------------------
 
 namespace FundooManager.Manager
 {
+    using System;
+    using System.Threading.Tasks;
+    using FundooManager.Interface;
+    using FundooModels;
+    using FundooRepository.Interface;
+
+    /// <summary>
+    /// Class user manager
+    /// </summary>
     public class UserManager : IUserManager
     {
-        //Creating reference for IUserRepository
+        /// <summary>
+        /// declaring instance of IUserRepository as repository
+        /// </summary>
         private readonly IUserRepository repository;
 
-        //Declaring parametrized constructor
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserManager"/> class
+        /// </summary>
+        /// <param name="repository">taking repository as parameter</param>
         public UserManager(IUserRepository repository)
         {
             this.repository = repository;
         }
 
-        //Register functionality
+        /// <summary>
+        /// Register method for manager class
+        /// </summary>
+        /// <param name="userData">passing register model</param>
+        /// <returns>Returns string if Registration is successful</returns>
         public async Task<string> Register(RegisterModel userData)
         {
             try
@@ -30,7 +49,11 @@ namespace FundooManager.Manager
             }
         }
 
-        //Login functionality
+        /// <summary>
+        /// Login method finds user in database and permit him to login
+        /// </summary>
+        /// <param name="login">LoginModel loginDetails</param>
+        /// <returns>returns string if login is successful</returns>
         public string LogIn(LoginModel login)
         {
             try
@@ -43,7 +66,11 @@ namespace FundooManager.Manager
             }
         }
 
-        //Reset password functionality
+        /// <summary>
+        /// Method for Resetting new Password
+        /// </summary>
+        /// <param name="reset">ResetModel userData</param>
+        /// <returns>Returns string if the password is successfully reset</returns>
         public async Task<string> ResetPassword(ResetPsModel reset)
         {
             try
@@ -56,7 +83,11 @@ namespace FundooManager.Manager
             }
         }
 
-        //Forgot password functionality
+        /// <summary>
+        /// Forgot password method performs sending mail to user,for creating new password
+        /// </summary>
+        /// <param name="email">string email</param>
+        /// <returns>Returns a string value as mail sent successfully</returns>
         public string ForgotPassword(string email)
         {
             try
@@ -69,7 +100,11 @@ namespace FundooManager.Manager
             }
         }
 
-        //Generate JWt token
+        /// <summary>
+        /// Generating a JWT token
+        /// </summary>
+        /// <param name="email">passing email as string</param>
+        /// <returns>Returns a string of token</returns>
         public string JWTTokenGeneration(string email)
         {
             try
